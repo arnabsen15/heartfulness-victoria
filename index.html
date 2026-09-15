@@ -19,6 +19,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a class="logo" href="#top" id="top">Heartfulness Victoria</a>
+      <a class="next-session-chip" id="next-session-chip" href="#events" hidden></a>
       <button
         type="button"
         class="nav-toggle"
@@ -43,13 +44,13 @@
   <main id="main">
     <section class="hero" aria-labelledby="hero-heading">
       <div class="container hero-inner">
-        <p class="hero-eyebrow">Melbourne &amp; Victoria</p>
         <h1 id="hero-heading">Heartfulness Victoria</h1>
         <p class="hero-lead">
           Free group meditations across Melbourne — beginners welcome.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#events">See upcoming events</a>
+          <a class="btn btn-secondary" href="mailto:melbourne@heartfulness.org?subject=Heartfulness%20Victoria%20enquiry">Email the Victoria group</a>
         </div>
       </div>
     </section>
@@ -58,7 +59,7 @@
       <div class="container">
         <div class="section-header">
           <h2 id="events-heading">Upcoming events</h2>
-</div>
+        </div>
         <div class="events-toolbar">
           <p class="events-status" id="events-status" aria-live="polite">Loading events…</p>
         </div>
@@ -155,52 +156,65 @@
   </main>
 
   <footer class="site-footer" id="contact">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <h2>Heartfulness Victoria</h2>
-          <p>
-            Community group meditations across Melbourne and Victoria, Australia.
-          </p>
-          <p class="contact-organiser">Heartfulness Victoria organisers</p>
-          <p class="contact-note">
-            <a href="mailto:melbourne@heartfulness.org">melbourne@heartfulness.org</a>
-          </p>
-          <p>
-            <a class="btn btn-primary contact-cta" href="mailto:melbourne@heartfulness.org?subject=Heartfulness%20Victoria%20enquiry">
-              Email the Victoria group
-            </a>
-          </p>
-          <p class="institute-ref">
-            <a href="https://www.heartfulnessinstitute.org.au/" target="_blank" rel="noopener noreferrer">
-              Heartfulness Institute Australia
-            </a>
-            ·
-            <a href="https://www.heartfulnessinstitute.org.au/the-experience/heartfulness-magazine/" target="_blank" rel="noopener noreferrer">
-              Heartfulness Magazine
-            </a>
-            ·
-            <a href="https://www.heartfulnessinstitute.org.au/the-experience/heartfulness-app/" target="_blank" rel="noopener noreferrer">
-              Heartfulness App
-            </a>
-            ·
-            <a href="https://heartfulness.org/in-en/heartspots/" target="_blank" rel="noopener noreferrer">
-              Find a Heartspot
-            </a>
-          </p>
-        </div>
-        <div class="disclaimer">
-          <h2>Disclaimer</h2>
-          <p>
-            Events are community-organised and may change without notice.
-            Confirm details with the host or Eventbrite listing when available.
-            This site does not speak for Heartfulness as an organisation.
-          </p>
+    <div class="footer-band">
+      <div class="container">
+        <div class="footer-panel">
+          <div class="footer-col footer-col-contact">
+            <h2 class="footer-headline">Get in touch</h2>
+            <p class="footer-lead">
+              A volunteer community · Heartfulness Victoria group.
+              Sessions are free unless noted on the event.
+            </p>
+            <p>
+              <a class="btn btn-primary btn-footer-cta" href="mailto:melbourne@heartfulness.org?subject=Heartfulness%20Victoria%20enquiry">
+                Email the Victoria group
+              </a>
+            </p>
+            <ul class="footer-secondary-links">
+              <li>
+                <a href="https://heartfulness.org/in-en/heartspots/" target="_blank" rel="noopener noreferrer">Find a Heartspot</a>
+              </li>
+              <li>
+                <a href="https://www.heartfulnessinstitute.org.au/" target="_blank" rel="noopener noreferrer">Heartfulness Institute Australia</a>
+              </li>
+              <li>
+                <a href="https://www.heartfulnessinstitute.org.au/the-experience/heartfulness-magazine/" target="_blank" rel="noopener noreferrer">Magazine</a>
+              </li>
+              <li>
+                <a href="https://www.heartfulnessinstitute.org.au/the-experience/heartfulness-app/" target="_blank" rel="noopener noreferrer">App</a>
+              </li>
+            </ul>
+            <p class="footer-disclaimer">
+              Events are community-organised and may change without notice.
+              Confirm details with the host when available.
+            </p>
+          </div>
+
+          <div class="footer-col footer-col-links">
+            <h3 class="footer-subhead">Quick links</h3>
+            <ul class="footer-quick-links">
+              <li><a href="#events">Upcoming</a></li>
+              <li><a href="#weekly">Weekly</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#past">Past</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col footer-col-next">
+            <h3 class="footer-subhead">Next sessions</h3>
+            <div id="footer-next" class="footer-next" aria-live="polite">
+              <p class="footer-next-empty">Loading…</p>
+            </div>
+          </div>
         </div>
       </div>
-      <p class="footer-bottom">
-        © <span id="year"></span> Heartfulness Victoria community site · Free static site · No tracking scripts
-      </p>
+    </div>
+    <div class="footer-bottom-bar">
+      <div class="container">
+        <p class="footer-bottom">
+          © <span id="year"></span> Heartfulness Victoria community site · Free static site · No tracking scripts
+        </p>
+      </div>
     </div>
   </footer>
 

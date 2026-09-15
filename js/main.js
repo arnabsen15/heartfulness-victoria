@@ -8,6 +8,17 @@
 
   const DAY_ORDER = ["Saturday", "Sunday", "Tuesday", "Other"];
 
+  /* Map weekday name → JS getDay() (0=Sun … 6=Sat) */
+  const WEEKDAY_JS = {
+    Sunday: 0,
+    Monday: 1,
+    Tuesday: 2,
+    Wednesday: 3,
+    Thursday: 4,
+    Friday: 5,
+    Saturday: 6,
+  };
+
   const navToggle = document.querySelector(".nav-toggle");
   const siteNav = document.querySelector(".site-nav");
 
@@ -23,6 +34,68 @@
         navToggle.setAttribute("aria-expanded", "false");
       });
     });
+  }
+
+  /* —— Scroll-spy: mark current section nav link with .is-active —— */
+  function initScrollSpy() {
+    const links = Array.from(
+      document.querySelectorAll('.site-nav a[href^="#"]')
+    );
+    if (links.length === 0) return;
+
+    const sections = links
+      .map(function (a) {
+        const id = a.getAttribute("href").slice(1);
+        const el = document.getElementById(id);
+        return el ? { id: id, el: el, link: a } : null;
+      })
+      .filter(Boolean);
+
+    if (sections.length === 0) return;
+
+    function setActive(id) {
+      links.forEach(function (a) {
+        const match = a.getAttribute("href") === "#" + id;
+        a.classList.toggle("is-active", match);
+        if (match) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+    }
+
+    function onScroll() {
+      const offset = getHeaderOffset() + 8;
+      let current = sections[0].id;
+      for (let i = 0; i < sections.length; i++) {
+        const top = sections[i].el.getBoundingClientRect().top;
+        if (top - offset <= 0) current = sections[i].id;
+      }
+      /* Near page bottom → prefer last section (Contact) */
+      const nearBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 48;
+      if (nearBottom) current = sections[sections.length - 1].id;
+      setActive(current);
+    }
+
+    let ticking = false;
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          onScroll();
+          ticking = false;
+        });
+      },
+      { passive: true }
+    );
+    onScroll();
+  }
+
+  function getHeaderOffset() {
+    const header = document.querySelector(".site-header");
+    return header ? header.offsetHeight : 76;
   }
 
   function parseLocalDate(isoDate) {
@@ -91,13 +164,218 @@
     return "Other";
   }
 
+  /**
+   * Parse a rough start hour (0–23) from time strings like
+   * "2:00 – 3:00 PM", "8:15 AM", "11:30 AM – 1:30 PM IST".
+   * Returns null if unparseable.
+   */
+  function parseStartHour(timeStr) {
+    if (!timeStr) return null;
+    const m = String(timeStr).match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?/i);
+    if (!m) return null;
+    let h = parseInt(m[1], 10);
+    const ampm = (m[3] || "").toUpperCase();
+    if (ampm === "PM" && h < 12) h += 12;
+    if (ampm === "AM" && h === 12) h = 0;
+    if (!ampm && h > 23) return null;
+    return h;
+  }
+
+  /** Short display time for chip, e.g. "2:00 PM" from "2:00 – 3:00 PM". */
+  function shortTime(timeStr) {
+    if (!timeStr) return "";
+    const m = String(timeStr).match(/(\d{1,2}(?::\d{2})?\s*(?:AM|PM)?)/i);
+    return m ? m[1].trim() : String(timeStr).split(/[–—-]/)[0].trim();
+  }
+
+  function shortWeekday(d) {
+    return d.toLocaleDateString("en-AU", { weekday: "short" });
+  }
+
+  /**
+   * Next occurrence of a weekly session.
+   * Heuristic (documented):
+   * - Find the session weekday from recurrence ("Every Saturday" etc.).
+   * - If today is that weekday AND current local hour is before the session
+   *   start hour, treat as this week; otherwise the next matching weekday.
+   * - If weekday unknown, return null.
+   */
+  function nextWeeklyOccurrence(event, now) {
+    const dayName = recurrenceDay(event);
+    if (dayName === "Other" || WEEKDAY_JS[dayName] === undefined) return null;
+    const targetDow = WEEKDAY_JS[dayName];
+    const todayDow = now.getDay();
+    const startHour = parseStartHour(event.time);
+    let daysAhead = (targetDow - todayDow + 7) % 7;
+    if (daysAhead === 0) {
+      /* Same weekday: this week if still before session time, else next week */
+      if (startHour !== null && now.getHours() < startHour) {
+        daysAhead = 0;
+      } else if (startHour === null && now.getHours() < 12) {
+        daysAhead = 0;
+      } else {
+        daysAhead = 7;
+      }
+    }
+    const occ = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + daysAhead
+    );
+    return occ;
+  }
+
+  /**
+   * Build ordered list of upcoming "next sessions" for chip + footer.
+   * Prefer dated specials (soonest first), then fill with weekly heuristics.
+   */
+  function computeNextSessions(events, limit) {
+    const now = new Date();
+    const today = startOfToday();
+    const candidates = [];
+
+    events.forEach(function (ev) {
+      if (isPastEvent(ev)) return;
+
+      if (ev.category === "special" && ev.date) {
+        const d = parseLocalDate(ev.date);
+        if (!d || d < today) return;
+        /* If special is today and time already passed, skip */
+        if (d.getTime() === today.getTime()) {
+          const h = parseStartHour(ev.time);
+          if (h !== null && now.getHours() >= h + 3) return;
+        }
+        candidates.push({
+          event: ev,
+          when: d,
+          kind: "special",
+          sortKey: d.toISOString().slice(0, 10) + "T" + String(ev.time || ""),
+        });
+        return;
+      }
+
+      if (ev.category === "weekly" || (!ev.category && ev.recurrence)) {
+        const occ = nextWeeklyOccurrence(ev, now);
+        if (!occ) return;
+        candidates.push({
+          event: ev,
+          when: occ,
+          kind: "weekly",
+          sortKey:
+            occ.getFullYear() +
+            "-" +
+            String(occ.getMonth() + 1).padStart(2, "0") +
+            "-" +
+            String(occ.getDate()).padStart(2, "0") +
+            "T" +
+            String(ev.time || ""),
+        });
+      }
+    });
+
+    candidates.sort(function (a, b) {
+      return a.sortKey.localeCompare(b.sortKey);
+    });
+
+    return candidates.slice(0, limit || 2);
+  }
+
+  function chipLabel(item) {
+    const ev = item.event;
+    const day = shortWeekday(item.when);
+    const place =
+      ev.suburb ||
+      (ev.venue ? String(ev.venue).split(",")[0].trim() : "") ||
+      "Session";
+    /* Prefer short suburb / area — truncate long place names */
+    const placeShort =
+      place.length > 18 ? place.slice(0, 16).trim() + "…" : place;
+    const time = shortTime(ev.time);
+    if (time) return day + " · " + placeShort + " · " + time;
+    return day + " · " + placeShort;
+  }
+
+  function footerNextLabel(item) {
+    const ev = item.event;
+    const day = shortWeekday(item.when);
+    const dateNum = item.when.toLocaleDateString("en-AU", {
+      day: "numeric",
+      month: "short",
+    });
+    const time = shortTime(ev.time);
+    const when =
+      day +
+      " " +
+      dateNum +
+      (time ? " · " + time : "");
+    const title =
+      ev.category === "special"
+        ? ev.title
+        : ev.suburb || ev.title || "Weekly session";
+    return { when: when, title: title };
+  }
+
+  function populateNextSessionUI(events) {
+    const chip = document.getElementById("next-session-chip");
+    const footerNext = document.getElementById("footer-next");
+    const nexts = computeNextSessions(events, 2);
+
+    if (chip) {
+      if (nexts.length === 0) {
+        chip.hidden = true;
+        chip.textContent = "";
+      } else {
+        const first = nexts[0];
+        const href = first.event.id
+          ? "#" + first.event.id
+          : "#events";
+        chip.hidden = false;
+        chip.href = href;
+        chip.textContent = chipLabel(first);
+        chip.setAttribute(
+          "aria-label",
+          "Next session: " + chipLabel(first)
+        );
+      }
+    }
+
+    if (footerNext) {
+      if (nexts.length === 0) {
+        footerNext.innerHTML =
+          '<p class="footer-next-empty">No upcoming sessions listed right now.</p>';
+      } else {
+        footerNext.innerHTML = nexts
+          .map(function (item) {
+            const labels = footerNextLabel(item);
+            const href = item.event.id ? "#" + item.event.id : "#events";
+            return (
+              '<a class="footer-next-item" href="' +
+              escapeHtml(href) +
+              '">' +
+              '<span class="fn-when">' +
+              escapeHtml(labels.when) +
+              "</span>" +
+              '<span class="fn-title">' +
+              escapeHtml(labels.title) +
+              "</span>" +
+              "</a>"
+            );
+          })
+          .join("");
+      }
+    }
+  }
+
   function eventActions(event) {
     const parts = [];
     const join = (event.joinUrl || "").trim();
     if (join && join !== "#") {
       let joinLabel = "Open link";
       if (/zoom\.us/i.test(join)) joinLabel = "Join Zoom";
-      else if (/bit\.ly|register|yourlibrary|square\.site/i.test(join) || event.category === "special")
+      else if (
+        /bit\.ly|register|yourlibrary|square\.site/i.test(join) ||
+        event.category === "special"
+      )
         joinLabel = "Register";
       parts.push(
         '<a class="btn btn-card" href="' +
@@ -144,9 +422,25 @@
       return '<span class="event-badge weekly">Every Tuesday</span>';
     }
     if (rec.indexOf("every ") === 0) {
-      return '<span class="event-badge weekly">' + escapeHtml(event.recurrence) + "</span>";
+      return (
+        '<span class="event-badge weekly">' +
+        escapeHtml(event.recurrence) +
+        "</span>"
+      );
     }
     return '<span class="event-badge">Upcoming</span>';
+  }
+
+  function cardIdAttr(event) {
+    const id = (event.id || "").trim();
+    if (!id) return "";
+    return (
+      ' id="' +
+      escapeHtml(id) +
+      '" data-event-id="' +
+      escapeHtml(id) +
+      '"'
+    );
   }
 
   function renderSpecialCard(event, past) {
@@ -157,7 +451,8 @@
     const recurrence = (event.recurrence || "").trim();
     let dateLine;
     if (event.date && event.endDate && event.endDate !== event.date) {
-      dateLine = formatDisplayDate(event.date) + " – " + formatDisplayDate(event.endDate);
+      dateLine =
+        formatDisplayDate(event.date) + " – " + formatDisplayDate(event.endDate);
     } else if (event.date) {
       dateLine = formatDisplayDate(event.date);
     } else if (recurrence) {
@@ -167,8 +462,12 @@
     }
     const timeLine = event.time || "";
     const scheduleNote =
-      recurrence && event.date && recurrence.toLowerCase().indexOf("october") !== -1
-        ? '<li><span class="label">Schedule</span><span>' + escapeHtml(recurrence) + "</span></li>"
+      recurrence &&
+      event.date &&
+      recurrence.toLowerCase().indexOf("october") !== -1
+        ? '<li><span class="label">Schedule</span><span>' +
+          escapeHtml(recurrence) +
+          "</span></li>"
         : "";
 
     const notes =
@@ -192,14 +491,15 @@
           "</a></span></li>"
         : "";
 
-    const image =
-      event.image && String(event.image).trim()
-        ? '<div class="event-flyer"><img src="' +
-          escapeHtml(event.image) +
-          '" alt="' +
-          escapeHtml(event.title) +
-          ' flyer" loading="lazy" /></div>'
-        : "";
+    /* Always render a fixed-aspect flyer area; soft-blue placeholder if no image */
+    const hasImage = event.image && String(event.image).trim();
+    const image = hasImage
+      ? '<div class="event-flyer"><img src="' +
+        escapeHtml(event.image) +
+        '" alt="' +
+        escapeHtml(event.title) +
+        ' flyer" loading="lazy" /></div>'
+      : '<div class="event-flyer is-placeholder" aria-hidden="true"></div>';
 
     const whenDetail =
       escapeHtml(dateLine) +
@@ -208,9 +508,9 @@
     return (
       '<article class="' +
       classes.join(" ") +
-      '" data-event-id="' +
-      escapeHtml(event.id || "") +
-      '">' +
+      '"' +
+      cardIdAttr(event) +
+      ">" +
       image +
       '<div class="event-body">' +
       badgeFor(event, past) +
@@ -250,9 +550,9 @@
     return (
       '<article class="event-card is-weekly-compact' +
       (actions ? "" : " no-actions") +
-      '" data-event-id="' +
-      escapeHtml(event.id || "") +
-      '" role="listitem">' +
+      '"' +
+      cardIdAttr(event) +
+      ' role="listitem">' +
       '<div class="weekly-main">' +
       '<p class="weekly-suburb">' +
       escapeHtml(suburb) +
@@ -270,7 +570,6 @@
     );
   }
 
-
   function renderPastCard(event) {
     const ended = event.status === "series-ended" || event.status === "ended";
     const classes = ["event-card"];
@@ -287,18 +586,19 @@
         : "";
 
     const link = (event.joinUrl || event.eventbriteUrl || "").trim();
-    const actions = link
-      ? '<div class="event-actions"><a class="btn btn-card" href="' +
-        escapeHtml(link) +
-        '" target="_blank" rel="noopener noreferrer">Event page</a></div>'
-      : "";
+    const actions =
+      link && link !== "#"
+        ? '<div class="event-actions"><a class="btn btn-card" href="' +
+          escapeHtml(link) +
+          '" target="_blank" rel="noopener noreferrer">Event page</a></div>'
+        : "";
 
     return (
       '<article class="' +
       classes.join(" ") +
-      '" data-event-id="' +
-      escapeHtml(event.id || "") +
-      '">' +
+      '"' +
+      cardIdAttr(event) +
+      ">" +
       '<div class="event-body">' +
       badgeFor(event, true) +
       "<h3>" +
@@ -347,8 +647,7 @@
     DAY_ORDER.forEach(function (day) {
       const items = groups[day];
       if (!items || items.length === 0) return;
-      const heading =
-        day === "Other" ? "Other weekly" : day + "s";
+      const heading = day === "Other" ? "Other weekly" : day + "s";
       parts.push(
         '<div class="day-group">' +
           '<h4 class="day-group-heading">' +
@@ -368,7 +667,9 @@
     const specialRoot = document.getElementById("events-special");
     const specialSection = document.getElementById("special-events-section");
     const pastRoot = document.getElementById("events-past");
-    const pastSection = document.getElementById("past") || document.getElementById("past-events-section");
+    const pastSection =
+      document.getElementById("past") ||
+      document.getElementById("past-events-section");
     const statusEl = document.getElementById("events-status");
 
     if (!upcomingRoot) return;
@@ -427,11 +728,14 @@
           .join("");
       }
     }
+
+    populateNextSessionUI(events);
   }
 
   function showError(message) {
     const upcomingRoot = document.getElementById("events-upcoming");
     const statusEl = document.getElementById("events-status");
+    const footerNext = document.getElementById("footer-next");
     if (statusEl) statusEl.textContent = "Could not load events";
     if (upcomingRoot) {
       upcomingRoot.innerHTML =
@@ -439,16 +743,24 @@
         escapeHtml(message) +
         " Please try again later, or contact melbourne@heartfulness.org.</p>";
     }
+    if (footerNext) {
+      footerNext.innerHTML =
+        '<p class="footer-next-empty">Events could not be loaded.</p>';
+    }
   }
 
   function init() {
+    initScrollSpy();
+
     fetch(EVENTS_URL)
       .then(function (res) {
-        if (!res.ok) throw new Error("Failed to fetch events (" + res.status + ").");
+        if (!res.ok)
+          throw new Error("Failed to fetch events (" + res.status + ").");
         return res.json();
       })
       .then(function (data) {
-        if (!Array.isArray(data)) throw new Error("Events data must be an array.");
+        if (!Array.isArray(data))
+          throw new Error("Events data must be an array.");
         renderEvents(data);
       })
       .catch(function (err) {
