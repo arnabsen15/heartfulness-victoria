@@ -36,7 +36,7 @@
     });
   }
 
-  /* —— Scroll-spy: mark current section nav link with .is-active —— */
+  /* —— Scroll-spy: only the section actually in view (skip hidden) —— */
   function initScrollSpy() {
     const links = Array.from(
       document.querySelectorAll('.site-nav a[href^="#"]')
@@ -55,26 +55,67 @@
 
     function setActive(id) {
       links.forEach(function (a) {
-        const match = a.getAttribute("href") === "#" + id;
-        a.classList.toggle("is-active", match);
+        const match = id && a.getAttribute("href") === "#" + id;
+        a.classList.toggle("is-active", !!match);
         if (match) a.setAttribute("aria-current", "true");
         else a.removeAttribute("aria-current");
       });
     }
 
+    function sectionUsable(el) {
+      if (!el || el.hasAttribute("hidden") || el.hidden) return false;
+      const style = window.getComputedStyle(el);
+      if (style.display === "none" || style.visibility === "hidden") return false;
+      const r = el.getBoundingClientRect();
+      /* Hidden or collapsed targets (e.g. empty Past) must not steal active state */
+      return r.height > 8 && r.width > 8;
+    }
+
     function onScroll() {
-      const offset = getHeaderOffset() + 8;
-      let current = sections[0].id;
-      for (let i = 0; i < sections.length; i++) {
-        const top = sections[i].el.getBoundingClientRect().top;
-        if (top - offset <= 0) current = sections[i].id;
+      const header = getHeaderOffset();
+      const probe = header + Math.min(96, Math.round(window.innerHeight * 0.12));
+
+      const usable = sections
+        .filter(function (s) {
+          return sectionUsable(s.el);
+        })
+        .slice()
+        .sort(function (a, b) {
+          return a.el.offsetTop - b.el.offsetTop;
+        });
+
+      if (usable.length === 0) {
+        setActive(null);
+        return;
       }
-      /* Near page bottom → prefer last section (Contact) */
+
       const nearBottom =
         window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 48;
-      if (nearBottom) current = sections[sections.length - 1].id;
+        document.documentElement.scrollHeight - 56;
+      if (nearBottom) {
+        setActive(usable[usable.length - 1].id);
+        return;
+      }
+
+      let current = null;
+      for (let i = 0; i < usable.length; i++) {
+        const top = usable[i].el.getBoundingClientRect().top;
+        if (top - probe <= 0) current = usable[i].id;
+      }
+
+      /* Above first section (hero) — no nav item active */
+      if (!current) {
+        setActive(null);
+        return;
+      }
       setActive(current);
+    }
+
+    function refreshSoon() {
+      onScroll();
+      requestAnimationFrame(onScroll);
+      setTimeout(onScroll, 120);
+      setTimeout(onScroll, 380);
     }
 
     let ticking = false;
@@ -90,7 +131,33 @@
       },
       { passive: true }
     );
-    onScroll();
+    window.addEventListener("hashchange", refreshSoon);
+    window.addEventListener("resize", refreshSoon);
+    if ("onscrollend" in window) {
+      window.addEventListener("scrollend", onScroll, { passive: true });
+    }
+    links.forEach(function (a) {
+      a.addEventListener("click", refreshSoon);
+    });
+    refreshSoon();
+  }
+
+  function stripNetlifyBadge() {
+    try {
+      document.querySelectorAll("a[href*='netlify.com'], #netlify-badge, .netlify-badge").forEach(function (node) {
+        const style = (node.getAttribute("style") || "").toLowerCase();
+        const fixed =
+          style.indexOf("fixed") !== -1 ||
+          style.indexOf("bottom") !== -1 ||
+          node.id === "netlify-badge" ||
+          (node.parentElement === document.body && /netlify\.com\/?$/i.test(node.href || ""));
+        if (fixed || node.id === "netlify-badge" || node.classList.contains("netlify-badge")) {
+          node.remove();
+        }
+      });
+    } catch (e) {
+      /* ignore */
+    }
   }
 
   function getHeaderOffset() {
@@ -750,6 +817,7 @@
         const bounds = [];
         pins.forEach(function (pin) {
           const when = [pin.recurrence, pin.time].filter(Boolean).join(" · ");
+          const label = pin.suburb + (when ? " — " + when : "");
           const mapLink = pin.mapsUrl
             ? '<p style="margin:0.4rem 0 0"><a href="' +
               escapeHtml(pin.mapsUrl) +
@@ -762,8 +830,24 @@
             escapeHtml(pin.venue) +
             (when ? "<br />" + escapeHtml(when) : "") +
             mapLink;
-          const marker = L.marker([pin.lat, pin.lng]).addTo(map);
-          marker.bindPopup(html, { className: "venues-leaflet-popup" });
+          const marker = L.marker([pin.lat, pin.lng], {
+            title: label,
+            alt: label,
+          }).addTo(map);
+          marker.bindPopup(html, {
+            className: "venues-leaflet-popup",
+            autoPan: true,
+            keepInView: true,
+            autoPanPadding: [48, 48],
+            maxWidth: 260,
+          });
+          marker.on("popupopen", function () {
+            try {
+              map.panInside(marker.getLatLng(), { padding: [56, 56] });
+            } catch (err) {
+              /* older Leaflet */
+            }
+          });
           bounds.push([pin.lat, pin.lng]);
         });
 
@@ -881,13 +965,16 @@
     initVenuesOverviewMap(events);
 
     if (statusEl) {
+      const pastLabel =
+        past.length === 1
+          ? "1 past event"
+          : past.length + " past events";
       statusEl.textContent =
         special.length +
         " special · " +
         weekly.length +
         " weekly · " +
-        past.length +
-        " past or ended";
+        pastLabel;
     }
 
     if (specialRoot && specialSection) {

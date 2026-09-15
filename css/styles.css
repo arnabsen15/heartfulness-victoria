@@ -1040,13 +1040,24 @@ section {
   color: var(--color-soft-blue);
 }
 
-/* Hide Netlify badge if injected */
+/* Hide Netlify identity / deploy badge overlays (mobile overlap) */
 #netlify-badge,
-a[href*="netlify.com"][style*="position: fixed"],
-body > a[href*="www.netlify.com"],
 .netlify-badge,
-iframe[src*="netlify"] {
+iframe[src*="netlify"],
+body > a[href*="netlify.com"],
+a[href*="netlify.com"][style*="position"],
+a[href*="netlify.com"][style*="fixed"],
+a[href*="netlify.com"][style*="bottom"],
+a[href="https://www.netlify.com/"],
+a[href="https://www.netlify.com"] {
   display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
 }
 
 
