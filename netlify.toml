@@ -1,4 +1,5 @@
 [build]
+  command = "printf %s\\n static-ok"
   publish = "."
 
-# Forms are detected from HTML in the publish directory (site-feedback).
+# Heartfulness Victoria — static site; Netlify Forms parses HTML at build/deploy.

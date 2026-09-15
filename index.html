@@ -243,12 +243,14 @@
           <p class="feedback-success-title">Thank you — your feedback was sent.</p>
           <p>If you left an email, we may follow up when it helps.</p>
         </div>
+        <p class="feedback-error" id="feedback-error" hidden role="alert"></p>
 
         <form
           class="feedback-form"
           id="feedback-form"
           name="site-feedback"
           method="POST"
+          netlify
           data-netlify="true"
           data-netlify-honeypot="bot-field"
           netlify-honeypot="bot-field"
@@ -404,23 +406,30 @@
       function onSubmit(e) {
         e.preventDefault();
         var btn = form.querySelector('button[type="submit"]');
+        var err = document.getElementById("feedback-error");
+        if (err) err.hidden = true;
         if (btn) {
           btn.disabled = true;
           btn.textContent = "Sending…";
         }
         var data = new FormData(form);
         if (!data.get("form-name")) data.set("form-name", "site-feedback");
+        var body = new URLSearchParams(data).toString();
 
         fetch("/", {
           method: "POST",
-          headers: { Accept: "application/json" },
-          body: data,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Accept: "application/json",
+          },
+          body: body,
         })
           .then(function (res) {
             if (!res.ok) throw new Error("Submit failed (" + res.status + ")");
             showThanks();
           })
           .catch(function () {
+            /* Last resort: native post to thanks.html (works once form is registered) */
             form.removeEventListener("submit", onSubmit);
             form.submit();
           })
