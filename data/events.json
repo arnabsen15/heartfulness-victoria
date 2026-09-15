@@ -1,16 +1,16 @@
 [
   {
     "id": "idp-knox-2026-09-19",
-    "title": "International Day of Peace — Knox",
+    "title": "International Day of Peace \u2014 Knox",
     "date": "2026-09-19",
     "endDate": "",
-    "time": "2:00 – 3:00 PM",
+    "time": "2:00 \u2013 3:00 PM",
     "recurrence": "",
     "venue": "Knox Library - Ngarrgoo, 425 Burwood Hwy, Westfield Knox, Wantirna South VIC 3152",
     "suburb": "Wantirna South",
     "status": "upcoming",
     "category": "special",
-    "notes": "Free community event. Family and friends are welcome — feel free to share with others.",
+    "notes": "Free community event. Family and friends are welcome \u2014 feel free to share with others.",
     "eventbriteUrl": "https://www.eventbrite.com.au/e/wantirna-south-international-day-of-peace-2026-tickets-1999239831153",
     "joinUrl": "https://events.yourlibrary.vic.gov.au/event?id=82422",
     "registerBy": "",
@@ -20,10 +20,10 @@
   },
   {
     "id": "wellness-kalkallo-2026-09-19",
-    "title": "Wellness through Meditation — Find Calm & Clarity",
+    "title": "Wellness through Meditation \u2014 Find Calm & Clarity",
     "date": "2026-09-19",
     "endDate": "",
-    "time": "3:00 – 5:00 PM",
+    "time": "3:00 \u2013 5:00 PM",
     "recurrence": "",
     "venue": "Kalkallo North Community Centre, 24 Koeks Vista, Kalkallo VIC",
     "suburb": "Kalkallo",
@@ -34,21 +34,21 @@
     "joinUrl": "",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "image": "",
+    "image": "images/wellness-kalkallo-2026.png",
     "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kalkallo%20North%20Community%20Centre%2C%2024%20Koeks%20Vista%2C%20Kalkallo%20VIC"
   },
   {
     "id": "idp-berwick-2026-09-20",
-    "title": "International Day of Peace — Berwick",
+    "title": "International Day of Peace \u2014 Berwick",
     "date": "2026-09-20",
     "endDate": "",
-    "time": "8:00 – 10:00 AM",
+    "time": "8:00 \u2013 10:00 AM",
     "recurrence": "",
     "venue": "21A Bemersyde Drive, Berwick",
     "suburb": "Berwick",
     "status": "upcoming",
     "category": "special",
-    "notes": "Free community event. Family and friends are welcome — feel free to share with others.",
+    "notes": "Free community event. Family and friends are welcome \u2014 feel free to share with others.",
     "eventbriteUrl": "https://www.eventbrite.com.au/e/berwick-international-day-of-peace-2026-tickets-1999308716190",
     "joinUrl": "",
     "registerBy": "",
@@ -58,12 +58,12 @@
   },
   {
     "id": "full-day-meditation-seminar-daaji-2026",
-    "title": "Full Day Meditation Seminar — 71st Birthday Celebration of Respected Daaji",
+    "title": "Full Day Meditation Seminar \u2014 71st Birthday Celebration of Respected Daaji",
     "date": "2026-09-27",
     "endDate": "2026-09-28",
     "time": "Full day (details to follow)",
     "recurrence": "",
-    "venue": "Sunday 27 September — Bayswater · Monday 28 September — Docklands",
+    "venue": "Sunday 27 September \u2014 Bayswater \u00b7 Monday 28 September \u2014 Docklands",
     "suburb": "Melbourne",
     "status": "upcoming",
     "category": "special",
@@ -77,16 +77,16 @@
   },
   {
     "id": "heartful-communication-apac-ess10-2026",
-    "title": "Heartful Communication – APAC Essentials Program (English)",
+    "title": "Heartful Communication \u2013 APAC Essentials Program (English)",
     "date": "2026-10-03",
     "endDate": "2026-10-25",
-    "time": "11:30 AM – 1:30 PM IST",
-    "recurrence": "8 online sessions · Sat & Sun · 3, 4, 10, 11, 17, 18, 24, 25 October 2026",
+    "time": "11:30 AM \u2013 1:30 PM IST",
+    "recurrence": "8 online sessions \u00b7 Sat & Sun \u00b7 3, 4, 10, 11, 17, 18, 24, 25 October 2026",
     "venue": "Online via Zoom",
     "suburb": "APAC Online",
     "status": "upcoming",
     "category": "special",
-    "notes": "HC APAC – ESS 10 (Oct 2026). For Heartfulness Practitioners. Register by 30 September 2026. Limited seats. For program questions: apac.hc@heartfulness.org.",
+    "notes": "HC APAC \u2013 ESS 10 (Oct 2026). For Heartfulness Practitioners. Register by 30 September 2026. Limited seats. For program questions: apac.hc@heartfulness.org.",
     "eventbriteUrl": "",
     "joinUrl": "https://bit.ly/4xJPEI5",
     "registerBy": "2026-09-30",
@@ -95,7 +95,7 @@
   },
   {
     "id": "melton-weekly",
-    "title": "Melton — Yoga & Meditation",
+    "title": "Melton \u2014 Yoga & Meditation",
     "date": null,
     "time": "8:15 AM",
     "recurrence": "Every Sunday",
@@ -109,11 +109,13 @@
     "image": "",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bridge%20Road%20Children%27s%20and%20Community%20Centre%2C%20260-266%20Bridge%20Rd%2C%20Strathtulloh%20VIC%203338"
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bridge%20Road%20Children%27s%20and%20Community%20Centre%2C%20260-266%20Bridge%20Rd%2C%20Strathtulloh%20VIC%203338",
+    "lat": -37.7149424,
+    "lng": 144.5861515
   },
   {
     "id": "bentleigh-east-weekly",
-    "title": "Bentleigh East — Yoga & Meditation",
+    "title": "Bentleigh East \u2014 Yoga & Meditation",
     "date": null,
     "time": "8:30 AM",
     "recurrence": "Every Sunday",
@@ -127,11 +129,13 @@
     "image": "",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Moorleigh%20Community%20Village%2C%20Bob%20Flavell%20Wing%2C%2090-92%20Bignell%20Rd%2C%20Bentleigh%20East%2C%20Room%2084"
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Moorleigh%20Community%20Village%2C%20Bob%20Flavell%20Wing%2C%2090-92%20Bignell%20Rd%2C%20Bentleigh%20East%2C%20Room%2084",
+    "lat": -37.9344973,
+    "lng": 145.0703543
   },
   {
     "id": "point-cook-weekly",
-    "title": "Point Cook — Yoga & Meditation",
+    "title": "Point Cook \u2014 Yoga & Meditation",
     "date": null,
     "time": "8:30 AM",
     "recurrence": "Every Sunday",
@@ -145,11 +149,13 @@
     "image": "",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Saltwater%20Community%20Centre%2C%20153%20Saltwater%20Promenade%2C%20Point%20Cook%20VIC%203030"
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Saltwater%20Community%20Centre%2C%20153%20Saltwater%20Promenade%2C%20Point%20Cook%20VIC%203030",
+    "lat": -37.9113147,
+    "lng": 144.7704767
   },
   {
     "id": "berwick-weekly",
-    "title": "Berwick — Heartfulness Meditation",
+    "title": "Berwick \u2014 Heartfulness Meditation",
     "date": null,
     "time": "8:45 AM",
     "recurrence": "Every Sunday",
@@ -163,11 +169,13 @@
     "image": "",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Brentwood%20Park%20Neighbourhood%20%26%20Community%20Centre%2C%2021A%20Bemersyde%20Dr%2C%20Berwick%20VIC%203806"
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Brentwood%20Park%20Neighbourhood%20%26%20Community%20Centre%2C%2021A%20Bemersyde%20Dr%2C%20Berwick%20VIC%203806",
+    "lat": -38.0497536,
+    "lng": 145.3455733
   },
   {
     "id": "carlton-weekly",
-    "title": "Carlton — Meditation",
+    "title": "Carlton \u2014 Meditation",
     "date": null,
     "time": "8:50 AM",
     "recurrence": "Every Sunday",
@@ -181,11 +189,13 @@
     "image": "",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kathleen%20Syme%20Library%2C%20251%20Faraday%20Street%2C%20Carlton%2C%20Multipurpose%20Room%201"
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kathleen%20Syme%20Library%2C%20251%20Faraday%20Street%2C%20Carlton%2C%20Multipurpose%20Room%201",
+    "lat": -37.7987135,
+    "lng": 144.9652521
   },
   {
     "id": "kalkallo-weekly",
-    "title": "Kalkallo — Heartfulness Meditation",
+    "title": "Kalkallo \u2014 Heartfulness Meditation",
     "date": null,
     "time": "9:00 AM",
     "recurrence": "Every Sunday",
@@ -199,11 +209,13 @@
     "image": "",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kalkallo%20North%20Community%20Centre%2C%2026%20Koeks%20Vis%2C%20Kalkallo%20VIC%203064"
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kalkallo%20North%20Community%20Centre%2C%2026%20Koeks%20Vis%2C%20Kalkallo%20VIC%203064",
+    "lat": -37.5212549,
+    "lng": 144.9574176
   },
   {
     "id": "virtual-weekly",
-    "title": "Virtual — Heartfulness Meditation",
+    "title": "Virtual \u2014 Heartfulness Meditation",
     "date": null,
     "time": "9:00 AM",
     "recurrence": "Every Sunday",
@@ -220,7 +232,7 @@
   },
   {
     "id": "knox-saturday-weekly",
-    "title": "Knox — Saturday Meditation",
+    "title": "Knox \u2014 Saturday Meditation",
     "date": null,
     "time": "2:00 PM",
     "recurrence": "Every Saturday",
@@ -234,11 +246,13 @@
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
     "image": "",
-    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Knox%20Library%20-%20Ngarrgoo%2C%20425%20Burwood%20Hwy%2C%20Westfield%20Knox%2C%20Wantirna%20South%20VIC%203152"
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Knox%20Library%20-%20Ngarrgoo%2C%20425%20Burwood%20Hwy%2C%20Westfield%20Knox%2C%20Wantirna%20South%20VIC%203152",
+    "lat": -37.8676962,
+    "lng": 145.2381211
   },
   {
     "id": "donnybrook-weekly-tuesday",
-    "title": "Donnybrook — Weekly Group Meditation",
+    "title": "Donnybrook \u2014 Weekly Group Meditation",
     "date": null,
     "time": "8:00 PM",
     "recurrence": "Every Tuesday",
@@ -252,11 +266,13 @@
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
     "image": "",
-    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=11%20Native%20Road%2C%20Donnybrook%20VIC%203064"
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=11%20Native%20Road%2C%20Donnybrook%20VIC%203064",
+    "lat": -37.5405354,
+    "lng": 144.9929703
   },
   {
     "id": "past-inner-illumination",
-    "title": "Inner Illumination — Wisdom for Conscious Leadership & Action",
+    "title": "Inner Illumination \u2014 Wisdom for Conscious Leadership & Action",
     "date": null,
     "endDate": "",
     "time": "",

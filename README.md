@@ -58,6 +58,8 @@ Open `data/events.json`. Each event object supports:
 | `registerBy` | Optional `YYYY-MM-DD` |
 | `contactEmail` | Optional contact |
 | `image` | Optional flyer path under `images/` |
+| `mapsUrl` | Google Maps search/link for the venue |
+| `lat` / `lng` | Optional coordinates for the Where we meet overview map (weekly in-person only) |
 
 Special events render as flyer cards. Weekly sessions are grouped by day (Saturdays, Sundays, Tuesdays) in a compact list. Past dates and `series-ended` / `ended` items appear under **Past & ended sessions**.
 

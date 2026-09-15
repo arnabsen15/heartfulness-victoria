@@ -663,6 +663,126 @@
   }
 
 
+
+  var venuesMapInstance = null;
+  var leafletLoading = null;
+
+  function loadLeaflet() {
+    if (window.L) return Promise.resolve(window.L);
+    if (leafletLoading) return leafletLoading;
+    leafletLoading = new Promise(function (resolve, reject) {
+      var css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+      css.integrity =
+        "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=";
+      css.crossOrigin = "";
+      document.head.appendChild(css);
+
+      var script = document.createElement("script");
+      script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+      script.integrity =
+        "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=";
+      script.crossOrigin = "";
+      script.onload = function () {
+        resolve(window.L);
+      };
+      script.onerror = function () {
+        reject(new Error("Could not load map library."));
+      };
+      document.head.appendChild(script);
+    });
+    return leafletLoading;
+  }
+
+  function initVenuesOverviewMap(events) {
+    const el = document.getElementById("venues-overview-map");
+    if (!el) return;
+
+    const pins = [];
+    const seen = {};
+    events.forEach(function (ev) {
+      if (isPastEvent(ev)) return;
+      if (ev.category === "special" || ev.category === "past") return;
+      const suburb = (ev.suburb || "").trim();
+      if (!suburb || suburb === "Virtual" || suburb === "APAC Online") return;
+      if (seen[suburb]) return;
+      const lat = Number(ev.lat);
+      const lng = Number(ev.lng);
+      if (!isFinite(lat) || !isFinite(lng)) return;
+      seen[suburb] = true;
+      pins.push({
+        suburb: suburb,
+        venue: ev.venue || "",
+        mapsUrl: ev.mapsUrl || "",
+        recurrence: ev.recurrence || "",
+        time: ev.time || "",
+        lat: lat,
+        lng: lng,
+      });
+    });
+
+    if (pins.length === 0) {
+      el.innerHTML =
+        '<p class="venues-empty" style="padding:1rem">Map unavailable — use the venue list below.</p>';
+      return;
+    }
+
+    loadLeaflet()
+      .then(function (L) {
+        if (venuesMapInstance) {
+          venuesMapInstance.remove();
+          venuesMapInstance = null;
+        }
+        el.innerHTML = "";
+        const map = L.map(el, {
+          scrollWheelZoom: false,
+          attributionControl: true,
+        });
+        venuesMapInstance = map;
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 18,
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        }).addTo(map);
+
+        const bounds = [];
+        pins.forEach(function (pin) {
+          const when = [pin.recurrence, pin.time].filter(Boolean).join(" · ");
+          const mapLink = pin.mapsUrl
+            ? '<p style="margin:0.4rem 0 0"><a href="' +
+              escapeHtml(pin.mapsUrl) +
+              '" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p>'
+            : "";
+          const html =
+            "<strong>" +
+            escapeHtml(pin.suburb) +
+            "</strong><br />" +
+            escapeHtml(pin.venue) +
+            (when ? "<br />" + escapeHtml(when) : "") +
+            mapLink;
+          const marker = L.marker([pin.lat, pin.lng]).addTo(map);
+          marker.bindPopup(html, { className: "venues-leaflet-popup" });
+          bounds.push([pin.lat, pin.lng]);
+        });
+
+        if (bounds.length === 1) {
+          map.setView(bounds[0], 12);
+        } else {
+          map.fitBounds(bounds, { padding: [36, 36], maxZoom: 11 });
+        }
+
+        setTimeout(function () {
+          map.invalidateSize();
+        }, 80);
+      })
+      .catch(function () {
+        el.innerHTML =
+          '<p class="venues-empty" style="padding:1rem">Map could not load — use the venue list and Map buttons below.</p>';
+      });
+  }
+
   function renderVenuesOverview(events) {
     const root = document.getElementById("venues-list");
     if (!root) return;
@@ -758,6 +878,7 @@
     past.sort(sortByDateDesc);
 
     renderVenuesOverview(events);
+    initVenuesOverviewMap(events);
 
     if (statusEl) {
       statusEl.textContent =

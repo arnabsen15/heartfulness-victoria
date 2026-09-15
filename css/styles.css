@@ -1050,9 +1050,13 @@ iframe[src*="netlify"] {
 }
 
 
-/* Special cards without images: no empty media band */
+/* Special cards without images: compact text-first layout */
 .event-card.is-special:not(:has(.event-flyer)) {
-  display: block;
+  display: flex;
+  flex-direction: column;
+}
+.event-card.is-special:not(:has(.event-flyer)) .event-body {
+  padding-top: 1.25rem;
 }
 .event-flyer.is-placeholder {
   display: none;
@@ -1126,3 +1130,42 @@ iframe[src*="netlify"] {
   scroll-margin-top: var(--header-offset, 4.75rem);
 }
 
+
+
+.venues-map-wrap {
+  margin: 0 0 1.25rem;
+}
+
+.venues-overview-map {
+  width: 100%;
+  height: min(420px, 55vh);
+  min-height: 280px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border-light);
+  background: var(--color-soft-blue);
+  z-index: 0;
+}
+
+.venues-map-note {
+  margin: 0.65rem 0 0;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.venues-leaflet-popup .leaflet-popup-content-wrapper {
+  border-radius: 10px;
+}
+
+.venues-leaflet-popup .leaflet-popup-content {
+  margin: 10px 12px;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.venues-leaflet-popup strong {
+  color: var(--color-navy);
+}
+
+.venues-leaflet-popup a {
+  color: var(--color-navy);
+}
