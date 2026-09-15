@@ -1048,3 +1048,81 @@ body > a[href*="www.netlify.com"],
 iframe[src*="netlify"] {
   display: none !important;
 }
+
+
+/* Special cards without images: no empty media band */
+.event-card.is-special:not(:has(.event-flyer)) {
+  display: block;
+}
+.event-flyer.is-placeholder {
+  display: none;
+}
+
+/* Where we meet */
+.venues {
+  padding: 40px 0 48px;
+  background: var(--color-bg-white);
+  border-block: 1px solid var(--color-border-light);
+}
+.venues-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 720px) {
+  .venues-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+.venues-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  background: #f3f8fc;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius);
+}
+.venues-suburb {
+  margin: 0 0 4px;
+  font-weight: 600;
+  color: var(--color-navy);
+}
+.venues-address,
+.venues-when {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--color-text-body);
+}
+.venues-when {
+  margin-top: 6px;
+  color: var(--color-muted);
+}
+.venues-map {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-navy);
+  color: var(--color-navy);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.venues-map:hover {
+  background: var(--color-soft-blue);
+}
+.venues-empty {
+  margin: 0;
+  color: var(--color-muted);
+}
+#venues {
+  scroll-margin-top: var(--header-offset, 4.75rem);
+}
+

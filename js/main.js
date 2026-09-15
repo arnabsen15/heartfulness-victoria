@@ -662,6 +662,72 @@
     return parts.join("");
   }
 
+
+  function renderVenuesOverview(events) {
+    const root = document.getElementById("venues-list");
+    if (!root) return;
+
+    const weekly = events.filter(function (ev) {
+      return !isPastEvent(ev) && ev.category !== "special" && ev.category !== "past";
+    });
+
+    const bySuburb = {};
+    weekly.forEach(function (ev) {
+      const suburb = (ev.suburb || "").trim() || "Other";
+      if (suburb === "Virtual" || suburb === "APAC Online") return;
+      if (!bySuburb[suburb]) {
+        bySuburb[suburb] = {
+          suburb: suburb,
+          venue: ev.venue || "",
+          mapsUrl: ev.mapsUrl || "",
+          recurrence: ev.recurrence || "",
+          time: ev.time || "",
+        };
+      }
+    });
+
+    const rows = Object.keys(bySuburb)
+      .sort(function (a, b) {
+        return a.localeCompare(b);
+      })
+      .map(function (key) {
+        return bySuburb[key];
+      });
+
+    if (rows.length === 0) {
+      root.innerHTML = '<p class="venues-empty">Venue list coming soon.</p>';
+      return;
+    }
+
+    root.innerHTML = rows
+      .map(function (row) {
+        const when = [row.recurrence, row.time].filter(Boolean).join(" · ");
+        const map =
+          row.mapsUrl
+            ? '<a class="venues-map" href="' +
+              escapeHtml(row.mapsUrl) +
+              '" target="_blank" rel="noopener noreferrer">Map</a>'
+            : "";
+        return (
+          '<li class="venues-item">' +
+          '<div class="venues-text">' +
+          '<p class="venues-suburb">' +
+          escapeHtml(row.suburb) +
+          "</p>" +
+          '<p class="venues-address">' +
+          escapeHtml(row.venue) +
+          "</p>" +
+          (when
+            ? '<p class="venues-when">' + escapeHtml(when) + "</p>"
+            : "") +
+          "</div>" +
+          map +
+          "</li>"
+        );
+      })
+      .join("");
+  }
+
   function renderEvents(events) {
     const upcomingRoot = document.getElementById("events-upcoming");
     const specialRoot = document.getElementById("events-special");
