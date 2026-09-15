@@ -269,6 +269,18 @@
       ? formatDisplayDate(event.date)
       : event.recurrence || "Past session";
 
+    const notes =
+      event.notes && String(event.notes).trim()
+        ? '<p class="event-notes">' + escapeHtml(event.notes) + "</p>"
+        : "";
+
+    const link = (event.joinUrl || event.eventbriteUrl || "").trim();
+    const actions = link
+      ? '<div class="event-actions"><a class="btn btn-card" href="' +
+        escapeHtml(link) +
+        '" target="_blank" rel="noopener noreferrer">Event page</a></div>'
+      : "";
+
     return (
       '<article class="' +
       classes.join(" ") +
@@ -290,6 +302,8 @@
       (event.suburb ? " — " + escapeHtml(event.suburb) : "") +
       "</span></li>" +
       "</ul>" +
+      notes +
+      actions +
       "</div></article>"
     );
   }
