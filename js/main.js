@@ -757,6 +757,8 @@
     weekly.sort(sortByDateAsc);
     past.sort(sortByDateDesc);
 
+    renderVenuesOverview(events);
+
     if (statusEl) {
       statusEl.textContent =
         special.length +
