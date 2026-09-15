@@ -1,0 +1,4 @@
+[build]
+  publish = "."
+
+# Forms are detected from HTML in the publish directory (site-feedback).

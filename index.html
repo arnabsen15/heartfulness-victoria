@@ -250,8 +250,9 @@
           name="site-feedback"
           method="POST"
           data-netlify="true"
+          data-netlify-honeypot="bot-field"
           netlify-honeypot="bot-field"
-          action="/?feedback=thanks#feedback"
+          action="/thanks.html"
         >
           <input type="hidden" name="form-name" value="site-feedback" />
           <p class="feedback-honeypot" aria-hidden="true">
@@ -379,15 +380,59 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
     (function () {
-      var params = new URLSearchParams(window.location.search);
-      if (params.get("feedback") !== "thanks") return;
       var form = document.getElementById("feedback-form");
       var ok = document.getElementById("feedback-success");
-      if (form) form.hidden = true;
-      if (ok) {
-        ok.hidden = false;
-        ok.focus && ok.focus();
+      if (!form) return;
+
+      function showThanks() {
+        form.hidden = true;
+        if (ok) {
+          ok.hidden = false;
+          try {
+            ok.setAttribute("tabindex", "-1");
+            ok.focus();
+          } catch (e) {}
+        }
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState({}, "", "/#feedback");
+        }
       }
+
+      var params = new URLSearchParams(window.location.search);
+      if (params.get("feedback") === "thanks") showThanks();
+
+      function onSubmit(e) {
+        e.preventDefault();
+        var btn = form.querySelector('button[type="submit"]');
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Sending…";
+        }
+        var data = new FormData(form);
+        if (!data.get("form-name")) data.set("form-name", "site-feedback");
+
+        fetch("/", {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: data,
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error("Submit failed (" + res.status + ")");
+            showThanks();
+          })
+          .catch(function () {
+            form.removeEventListener("submit", onSubmit);
+            form.submit();
+          })
+          .finally(function () {
+            if (btn && !form.hidden) {
+              btn.disabled = false;
+              btn.textContent = "Send feedback";
+            }
+          });
+      }
+
+      form.addEventListener("submit", onSubmit);
     })();
   </script>
   <script src="js/main.js" defer></script>
