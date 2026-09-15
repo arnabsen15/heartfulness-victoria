@@ -9,9 +9,11 @@ Pure HTML, CSS, and JavaScript. Events are loaded from `data/events.json` via `f
 ```
 heartfulness-victoria/
 ├── index.html          # Main landing page
-├── css/styles.css      # Styles
-├── js/main.js          # Loads & sorts events
+├── css/styles.css      # Styles (navy/blue Heartfulness palette)
+├── js/main.js          # Loads, sorts, and groups events
 ├── data/events.json    # Editable events list
+├── fonts/              # Avenir Book (body)
+├── images/             # Event flyer images
 └── README.md           # This file
 ```
 
@@ -43,16 +45,21 @@ Open `data/events.json`. Each event object supports:
 | `id` | Stable unique string |
 | `title` | Event name |
 | `date` | `YYYY-MM-DD` or `null` if no date |
-| `time` | Display time string (e.g. `2:00 PM AEST`) or `null` |
+| `endDate` | Optional end date for multi-day events |
+| `time` | Display time string (e.g. `2:00 PM`) or empty |
+| `recurrence` | e.g. `Every Sunday`, `Every Saturday`, `Every Tuesday` |
 | `venue` | Venue name / address |
 | `suburb` | Suburb |
 | `status` | `upcoming`, `series-ended`, or `ended` |
-| `notes` | Optional note (e.g. series historically ran) |
-| `eventbriteUrl` | Real Eventbrite URL, or `""` / omit — do **not** invent fake URLs |
+| `category` | `special` or `weekly` |
+| `notes` | Optional note |
+| `eventbriteUrl` | Real Eventbrite URL, or `""` — do **not** invent fake URLs |
+| `joinUrl` | Zoom / register / library link (optional) |
+| `registerBy` | Optional `YYYY-MM-DD` |
+| `contactEmail` | Optional contact |
+| `image` | Optional flyer path under `images/` |
 
-Upcoming events are sorted by date. Past dates and `series-ended` / `ended` items appear under **Past & ended sessions**.
-
-When you have a real Eventbrite link, set `eventbriteUrl` to that URL. Leave it empty until then; the card CTA stays a placeholder (`href="#"` with `data-eventbrite`).
+Special events render as flyer cards. Weekly sessions are grouped by day (Saturdays, Sundays, Tuesdays) in a compact list. Past dates and `series-ended` / `ended` items appear under **Past & ended sessions**.
 
 ## Free deploy (no paid plan)
 
@@ -63,27 +70,24 @@ When you have a real Eventbrite link, set `eventbriteUrl` to that URL. Leave it 
 3. Choose `main` (or `master`) and `/ (root)`.
 4. Site URL will be `https://<user>.github.io/<repo>/`.
 
-If the site lives in a subfolder of the repo, set the Pages source folder accordingly, or keep this project at the repo root.
-
 ### Netlify (drag-and-drop or Git)
 
-1. Go to [https://app.netlify.com/drop](https://app.netlify.com/drop) (anonymous drag-and-drop works for a quick demo).
+1. Go to [https://app.netlify.com/drop](https://app.netlify.com/drop).
 2. Drop the `heartfulness-victoria` folder, **or** connect a Git repo and set publish directory to the project root (no build command).
-3. Optional: add a `netlify.toml` later; not required for a static root publish.
 
 ### Cloudflare Pages
 
 1. In Cloudflare Dashboard → **Workers & Pages → Create → Pages**.
 2. Connect the Git repo, or use direct upload.
 3. Build command: leave empty. Output directory: `/` (project root).
-4. Deploy.
 
 All three serve static files as-is. No Node build is required.
 
 ## Accessibility & design notes
 
 - Semantic landmarks, skip link, focus styles, and `prefers-reduced-motion` support.
-- Soft greens/blues, original geometric “calm orb” hero graphic (no Heartfulness logos scraped).
+- Calm navy/soft-blue palette aligned with heartfulness.org (`#173E5F`, `#EEF8FF`, gold CTA `#DEAC43`).
+- Body font: Avenir Book (`fonts/Avenir-Book.ttf`); clean sans headings (no heavy uppercase display serif).
 - Contact email in the footer: `melbourne@heartfulness.org`.
 
 ## Licence / content

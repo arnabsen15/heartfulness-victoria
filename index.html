@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Heartfulness Victoria — free group meditations and calm community sessions across Melbourne and Victoria. Beginners welcome.">
-  <meta name="theme-color" content="#2a6b5a">
+  <meta name="theme-color" content="#173E5F">
   <title>Heartfulness Victoria — Group Meditations across Melbourne &amp; Victoria</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -13,10 +13,7 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="logo" href="#top" id="top">
-        <span class="logo-mark" aria-hidden="true">HV</span>
-        <span>Heartfulness Victoria</span>
-      </a>
+      <a class="logo" href="#top" id="top">Heartfulness Victoria</a>
       <button
         type="button"
         class="nav-toggle"
@@ -28,9 +25,9 @@
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Primary">
         <ul>
-          <li><a href="#about">About</a></li>
           <li><a href="#events">Events</a></li>
-          <li><a href="#expect">What to expect</a></li>
+          <li><a href="#weekly">Weekly</a></li>
+          <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
@@ -40,74 +37,14 @@
   <main id="main">
     <section class="hero" aria-labelledby="hero-heading">
       <div class="container hero-inner">
-        <div>
-          <p class="hero-eyebrow">Melbourne &amp; Victoria</p>
-          <h1 id="hero-heading">Heartfulness Victoria</h1>
-          <p class="hero-lead">
-            Group meditations across Melbourne &amp; Victoria — a warm space to
-            find calm together, whether you are new to meditation or returning to stillness.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#events">See upcoming events</a>
-            <a class="btn btn-secondary" href="#about">About Heartfulness</a>
-          </div>
-        </div>
-        <div class="hero-visual" aria-hidden="true">
-          <div class="calm-orb"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="about" id="about" aria-labelledby="about-heading">
-      <div class="container">
-        <div class="section-header">
-          <h2 id="about-heading">About</h2>
-          <p>
-            Heartfulness is a simple approach to meditation that many people practise in
-            community. Local volunteers and friends across Victoria host free or low-barrier
-            group sessions so anyone can sit together in a calm, welcoming environment.
-          </p>
-        </div>
-        <div class="about-grid">
-          <article class="about-card">
-            <h3>Community sessions</h3>
-            <p>
-              Gatherings are organised by local people in libraries, neighbourhood houses,
-              and community centres — ordinary places made a little quieter for an hour or so.
-            </p>
-          </article>
-          <article class="about-card">
-            <h3>No experience needed</h3>
-            <p>
-              You do not need prior practice. Sessions are usually guided gently and open to
-              beginners as well as regular meditators.
-            </p>
-          </article>
-          <article class="about-card">
-            <h3>Across Victoria</h3>
-            <p>
-              From Melton to Berwick, Knox to Kalkallo — check the events list for dates,
-              suburbs, and venues near you.
-            </p>
-          </article>
-        </div>
-        <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--color-text-muted);">
-          This site shares community-organised events in Victoria. It is not an official
-          Heartfulness headquarters page; details are maintained by local organisers and may change.
+        <p class="hero-eyebrow">Melbourne &amp; Victoria</p>
+        <h1 id="hero-heading">Heartfulness Victoria</h1>
+        <p class="hero-lead">
+          Free group meditations across Melbourne — beginners welcome.
         </p>
-        <p class="institute-ref" style="margin-top: 0.85rem; font-size: 0.95rem;">
-          Reference:
-          <a href="https://www.heartfulnessinstitute.org.au/" target="_blank" rel="noopener noreferrer">
-            Heartfulness Yoga Meditation Australia — Sydney, Melbourne, Brisbane, Perth
-          </a>
-          (<a href="https://www.heartfulnessinstitute.org.au/" target="_blank" rel="noopener noreferrer">heartfulnessinstitute.org.au</a>)
-        </p>
-        <p class="institute-ref" style="margin-top: 0.65rem; font-size: 0.95rem;">
-          Find a Heartspot near you:
-          <a href="https://heartfulness.org/in-en/heartspots/" target="_blank" rel="noopener noreferrer">
-            heartfulness.org/in-en/heartspots
-          </a>
-        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#events">See upcoming events</a>
+        </div>
       </div>
     </section>
 
@@ -115,26 +52,24 @@
       <div class="container">
         <div class="section-header">
           <h2 id="events-heading">Upcoming events</h2>
-          <p>
-            Special programs first, then weekly Sunday group meditations across Victoria.
-            Details live in <code>data/events.json</code>.
-          </p>
-        </div>
+</div>
         <div class="events-toolbar">
           <p class="events-status" id="events-status" aria-live="polite">Loading events…</p>
         </div>
 
         <div class="events-special" id="special-events-section" hidden>
-          <h3 id="special-heading">Special upcoming events</h3>
-          <p class="special-intro">Programs and seminars beyond the regular Sunday sessions.</p>
+          <h3 id="special-heading">Special upcoming</h3>
+          <p class="special-intro">Programs and seminars beyond the regular weekly sessions.</p>
           <div class="events-grid events-grid-special" id="events-special" role="list" aria-labelledby="special-heading">
           </div>
         </div>
 
-        <h3 class="weekly-heading" id="weekly-heading">Weekly group meditations</h3>
-        <p class="special-intro" id="weekly-intro">Regular recurring sessions — Sundays, Saturdays at Knox, and Tuesday evenings in Donnybrook.</p>
-        <div class="events-grid" id="events-upcoming" role="list">
-          <!-- Cards injected by js/main.js -->
+        <div class="events-weekly" id="weekly">
+          <h3 class="weekly-heading" id="weekly-heading">Weekly sessions</h3>
+          <p class="special-intro" id="weekly-intro">Regular recurring sessions — Saturdays, Sundays, and Tuesdays.</p>
+          <div id="events-upcoming" role="list">
+            <!-- Day-grouped weekly sessions injected by js/main.js -->
+          </div>
         </div>
 
         <div class="events-past" id="past-events-section" hidden>
@@ -145,51 +80,66 @@
       </div>
     </section>
 
+    <section class="about" id="about" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="about-heading">About</h2>
+          <p>
+            Heartfulness is a simple approach to meditation practised in community.
+            Local volunteers across Victoria host free or low-barrier group sessions
+            so anyone can sit together in a calm, welcoming space.
+          </p>
+        </div>
+        <div class="about-grid">
+          <article class="about-card">
+            <h3>Community sessions</h3>
+            <p>Libraries, neighbourhood houses, and community centres — ordinary places made quieter for an hour.</p>
+          </article>
+          <article class="about-card">
+            <h3>No experience needed</h3>
+            <p>Sessions are gently guided and open to beginners as well as regular meditators.</p>
+          </article>
+          <article class="about-card">
+            <h3>Across Victoria</h3>
+            <p>From Melton to Berwick, Knox to Kalkallo — check the events list for a venue near you.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="expect" id="expect" aria-labelledby="expect-heading">
       <div class="container">
         <div class="section-header">
           <h2 id="expect-heading">What to expect</h2>
-          <p>A few practical notes so your first (or next) visit feels easy.</p>
+          <p>A few practical notes so your visit feels easy.</p>
         </div>
         <ul class="expect-list">
           <li class="expect-item">
             <span class="expect-icon" aria-hidden="true">1</span>
             <div>
               <h3>Arrive a little early</h3>
-              <p>
-                Give yourself time to find the room, settle in, and switch phones to silent
-                before the session begins.
-              </p>
+              <p>Find the room, settle in, and switch phones to silent.</p>
             </div>
           </li>
           <li class="expect-item">
             <span class="expect-icon" aria-hidden="true">2</span>
             <div>
               <h3>Sit comfortably</h3>
-              <p>
-                Chairs are usually available. Wear clothes you can sit in easily — no special
-                gear required.
-              </p>
+              <p>Chairs are usually available. No special gear required.</p>
             </div>
           </li>
           <li class="expect-item">
             <span class="expect-icon" aria-hidden="true">3</span>
             <div>
               <h3>Free unless noted</h3>
-              <p>
-                Most community sessions are free. If a venue or event asks for a donation or fee,
-                that will be noted on the event listing.
-              </p>
+              <p>Most sessions are free. Any fee or donation is listed on the event.</p>
             </div>
           </li>
           <li class="expect-item">
             <span class="expect-icon" aria-hidden="true">4</span>
             <div>
               <h3>Beginners welcome</h3>
-              <p>
-                You are welcome whether meditation is new to you or part of your routine.
-                Come as you are.
-              </p>
+              <p>Come as you are — whether meditation is new or familiar.</p>
             </div>
           </li>
         </ul>
@@ -203,33 +153,27 @@
         <div>
           <h2>Heartfulness Victoria</h2>
           <p>
-            A community landing page for group meditations and related calm sessions across
-            Melbourne and Victoria, Australia.
+            Community group meditations across Melbourne and Victoria, Australia.
           </p>
           <p class="contact-note">
-            Contact:
             <a href="mailto:melbourne@heartfulness.org">melbourne@heartfulness.org</a>
           </p>
           <p class="institute-ref">
-            More about Heartfulness in Australia:
             <a href="https://www.heartfulnessinstitute.org.au/" target="_blank" rel="noopener noreferrer">
-              Heartfulness Yoga Meditation Australia (Sydney · Melbourne · Brisbane · Perth)
+              Heartfulness Institute Australia
             </a>
-          </p>
-          <p class="institute-ref">
-            Heartspots finder:
+            ·
             <a href="https://heartfulness.org/in-en/heartspots/" target="_blank" rel="noopener noreferrer">
-              heartfulness.org/in-en/heartspots
+              Find a Heartspot
             </a>
           </p>
         </div>
         <div class="disclaimer">
           <h2>Disclaimer</h2>
           <p>
-            Events are community-organised. Dates, times, and venues may change or be cancelled
-            without notice on this site. Always confirm details with the event host or Eventbrite
-            listing when available. This website does not speak for Heartfulness as an organisation
-            and does not make official medical or spiritual claims.
+            Events are community-organised and may change without notice.
+            Confirm details with the host or Eventbrite listing when available.
+            This site does not speak for Heartfulness as an organisation.
           </p>
         </div>
       </div>

@@ -6,6 +6,8 @@
 
   const EVENTS_URL = "data/events.json";
 
+  const DAY_ORDER = ["Saturday", "Sunday", "Tuesday", "Other"];
+
   const navToggle = document.querySelector(".nav-toggle");
   const siteNav = document.querySelector(".site-nav");
 
@@ -80,6 +82,14 @@
       .replace(/'/g, "&#39;");
   }
 
+  function recurrenceDay(event) {
+    const rec = String(event.recurrence || "").toLowerCase();
+    if (rec.indexOf("saturday") !== -1) return "Saturday";
+    if (rec.indexOf("sunday") !== -1) return "Sunday";
+    if (rec.indexOf("tuesday") !== -1) return "Tuesday";
+    return "Other";
+  }
+
   function eventbriteCta(event) {
     const parts = [];
     const join = (event.joinUrl || "").trim();
@@ -136,25 +146,23 @@
     return '<span class="event-badge">Upcoming</span>';
   }
 
-  function renderCard(event, past) {
+  function renderSpecialCard(event, past) {
     const ended = event.status === "series-ended" || event.status === "ended";
-    const isSpecial = event.category === "special";
-    const classes = ["event-card"];
-    if (isSpecial) classes.push("is-special");
+    const classes = ["event-card", "is-special"];
     if (past || ended) classes.push(past && !ended ? "is-past" : "is-ended");
 
     const recurrence = (event.recurrence || "").trim();
     let dateLine;
-    if (isSpecial && recurrence && event.date) {
+    if (recurrence && event.date) {
       dateLine = recurrence;
     } else if (event.date && event.endDate && event.endDate !== event.date) {
       dateLine = formatDisplayDate(event.date) + " – " + formatDisplayDate(event.endDate);
     } else if (event.date) {
       dateLine = formatDisplayDate(event.date);
     } else {
-      dateLine = recurrence || "Weekly session";
+      dateLine = recurrence || "Special event";
     }
-    const timeLine = event.time || "Time TBC";
+    const timeLine = event.time || "";
 
     const notes =
       event.notes && String(event.notes).trim()
@@ -186,9 +194,9 @@
           ' flyer" loading="lazy" /></div>'
         : "";
 
-    const whenDetail = isSpecial
-      ? escapeHtml(dateLine) + (event.time ? "<br />" + escapeHtml(timeLine) : "")
-      : escapeHtml(dateLine) + (event.time ? " · " + escapeHtml(timeLine) : "");
+    const whenDetail =
+      escapeHtml(dateLine) +
+      (timeLine ? "<br />" + escapeHtml(timeLine) : "");
 
     return (
       '<article class="' +
@@ -208,7 +216,6 @@
       "</span></li>" +
       '<li><span class="label">Where</span><span>' +
       escapeHtml(event.venue) +
-      (event.suburb && !isSpecial ? " — " + escapeHtml(event.suburb) : "") +
       "</span></li>" +
       registerBy +
       contact +
@@ -219,6 +226,114 @@
       "</div>" +
       "</div></article>"
     );
+  }
+
+  function renderWeeklyCompact(event) {
+    const suburb = event.suburb || event.title || "Session";
+    const time = event.time || "Time TBC";
+    const venue = event.venue || "";
+    const notes =
+      event.notes && String(event.notes).trim()
+        ? '<p class="weekly-notes">' + escapeHtml(event.notes) + "</p>"
+        : "";
+
+    return (
+      '<article class="event-card is-weekly-compact" data-event-id="' +
+      escapeHtml(event.id || "") +
+      '" role="listitem">' +
+      '<p class="weekly-suburb">' +
+      escapeHtml(suburb) +
+      "</p>" +
+      '<p class="weekly-time">' +
+      escapeHtml(time) +
+      "</p>" +
+      '<p class="weekly-venue">' +
+      escapeHtml(venue) +
+      "</p>" +
+      '<div class="weekly-actions">' +
+      eventbriteCta(event) +
+      "</div>" +
+      notes +
+      "</article>"
+    );
+  }
+
+  function renderPastCard(event) {
+    const ended = event.status === "series-ended" || event.status === "ended";
+    const classes = ["event-card"];
+    if (ended) classes.push("is-ended");
+    else classes.push("is-past");
+
+    const dateLine = event.date
+      ? formatDisplayDate(event.date)
+      : event.recurrence || "Past session";
+
+    return (
+      '<article class="' +
+      classes.join(" ") +
+      '" data-event-id="' +
+      escapeHtml(event.id || "") +
+      '">' +
+      '<div class="event-body">' +
+      badgeFor(event, true) +
+      "<h3>" +
+      escapeHtml(event.title) +
+      "</h3>" +
+      '<ul class="event-meta">' +
+      '<li><span class="label">When</span><span>' +
+      escapeHtml(dateLine) +
+      (event.time ? " · " + escapeHtml(event.time) : "") +
+      "</span></li>" +
+      '<li><span class="label">Where</span><span>' +
+      escapeHtml(event.venue || "") +
+      (event.suburb ? " — " + escapeHtml(event.suburb) : "") +
+      "</span></li>" +
+      "</ul>" +
+      "</div></article>"
+    );
+  }
+
+  function groupWeeklyByDay(weekly) {
+    const groups = {};
+    DAY_ORDER.forEach(function (d) {
+      groups[d] = [];
+    });
+    weekly.forEach(function (ev) {
+      const day = recurrenceDay(ev);
+      if (!groups[day]) groups[day] = [];
+      groups[day].push(ev);
+    });
+    DAY_ORDER.forEach(function (d) {
+      groups[d].sort(sortByDateAsc);
+    });
+    return groups;
+  }
+
+  function renderWeeklyGrouped(weekly) {
+    if (weekly.length === 0) {
+      return '<p class="events-empty">No weekly sessions listed right now.</p>';
+    }
+
+    const groups = groupWeeklyByDay(weekly);
+    const parts = [];
+
+    DAY_ORDER.forEach(function (day) {
+      const items = groups[day];
+      if (!items || items.length === 0) return;
+      const heading =
+        day === "Other" ? "Other weekly" : day + "s";
+      parts.push(
+        '<div class="day-group">' +
+          '<h4 class="day-group-heading">' +
+          escapeHtml(heading) +
+          "</h4>" +
+          '<div class="weekly-list" role="list">' +
+          items.map(renderWeeklyCompact).join("") +
+          "</div></div>"
+      );
+    });
+
+    return parts.join("");
   }
 
   function renderEvents(events) {
@@ -263,29 +378,26 @@
         specialSection.hidden = true;
       } else {
         specialSection.hidden = false;
-        specialRoot.innerHTML = special.map(function (e) {
-          return renderCard(e, false);
-        }).join("");
+        specialRoot.innerHTML = special
+          .map(function (e) {
+            return renderSpecialCard(e, false);
+          })
+          .join("");
       }
     }
 
-    if (weekly.length === 0) {
-      upcomingRoot.innerHTML =
-        '<p class="events-empty">No weekly Sunday sessions listed right now.</p>';
-    } else {
-      upcomingRoot.innerHTML = weekly.map(function (e) {
-        return renderCard(e, false);
-      }).join("");
-    }
+    upcomingRoot.innerHTML = renderWeeklyGrouped(weekly);
 
     if (pastRoot && pastSection) {
       if (past.length === 0) {
         pastSection.hidden = true;
       } else {
         pastSection.hidden = false;
-        pastRoot.innerHTML = past.map(function (e) {
-          return renderCard(e, true);
-        }).join("");
+        pastRoot.innerHTML = past
+          .map(function (e) {
+            return renderPastCard(e);
+          })
+          .join("");
       }
     }
   }
@@ -298,7 +410,7 @@
       upcomingRoot.innerHTML =
         '<p class="events-error" role="alert">' +
         escapeHtml(message) +
-        " Serve this folder with a local static server (see README) so events.json can load.</p>";
+        " Please try again later, or contact melbourne@heartfulness.org.</p>";
     }
   }
 
@@ -309,7 +421,7 @@
         return res.json();
       })
       .then(function (data) {
-        if (!Array.isArray(data)) throw new Error("events.json must be an array.");
+        if (!Array.isArray(data)) throw new Error("Events data must be an array.");
         renderEvents(data);
       })
       .catch(function (err) {
