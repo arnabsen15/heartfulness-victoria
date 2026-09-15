@@ -1220,3 +1220,128 @@ iframe[src*="netlify"] {
 #live {
   scroll-margin-top: var(--header-offset, 4.75rem);
 }
+
+
+.yt-recent {
+  margin-top: 1.15rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(23, 62, 95, 0.12);
+}
+
+.yt-recent-label {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-navy);
+}
+
+.yt-recent-grid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .yt-recent-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 960px) {
+  .yt-recent-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.yt-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
+  min-height: 100%;
+}
+
+.yt-card:hover {
+  border-color: rgba(23, 62, 95, 0.28);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.yt-thumb-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #0f2438;
+  overflow: hidden;
+}
+
+.yt-thumb-wrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.yt-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, transparent 40%, rgba(15, 36, 56, 0.35) 100%);
+  pointer-events: none;
+}
+
+.yt-play span {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  background: rgba(222, 172, 67, 0.95);
+  color: var(--color-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.yt-card-body {
+  padding: 0.7rem 0.8rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.yt-card-title {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  color: var(--color-navy);
+  font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.yt-card-meta {
+  margin: 0;
+  margin-top: auto;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.yt-recent-loading,
+.yt-recent-empty {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}

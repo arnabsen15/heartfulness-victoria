@@ -938,8 +938,64 @@
     }
   }
 
+
+  const YT_RECENT_URL = "data/youtube-recent.json";
+
+  function renderYoutubeRecent(payload) {
+    const grid = document.getElementById("yt-recent-grid");
+    if (!grid) return;
+    const videos = (payload && payload.videos) || [];
+    if (!videos.length) {
+      grid.innerHTML =
+        '<p class="yt-recent-empty">See the <a href="https://www.youtube.com/@heartfulness" target="_blank" rel="noopener noreferrer">Heartfulness YouTube channel</a> for the latest videos.</p>';
+      return;
+    }
+    grid.innerHTML = videos
+      .map(function (v) {
+        const meta = [v.publishedDisplay, v.duration]
+          .filter(Boolean)
+          .join(" · ");
+        return (
+          '<a class="yt-card" href="' +
+          escapeHtml(v.url) +
+          '" target="_blank" rel="noopener noreferrer">' +
+          '<div class="yt-thumb-wrap">' +
+          '<img src="' +
+          escapeHtml(v.thumbnail) +
+          '" alt="" loading="lazy" width="480" height="360" />' +
+          '<div class="yt-play" aria-hidden="true"><span>▶</span></div>' +
+          "</div>" +
+          '<div class="yt-card-body">' +
+          '<p class="yt-card-title">' +
+          escapeHtml(v.title) +
+          "</p>" +
+          (meta
+            ? '<p class="yt-card-meta">' + escapeHtml(meta) + "</p>"
+            : "") +
+          "</div></a>"
+        );
+      })
+      .join("");
+  }
+
+  function loadYoutubeRecent() {
+    const grid = document.getElementById("yt-recent-grid");
+    if (!grid) return;
+    fetch(YT_RECENT_URL)
+      .then(function (res) {
+        if (!res.ok) throw new Error("Could not load recent videos.");
+        return res.json();
+      })
+      .then(renderYoutubeRecent)
+      .catch(function () {
+        grid.innerHTML =
+          '<p class="yt-recent-empty">See the <a href="https://www.youtube.com/@heartfulness" target="_blank" rel="noopener noreferrer">Heartfulness YouTube channel</a> for the latest videos.</p>';
+      });
+  }
+
   function init() {
     initScrollSpy();
+    loadYoutubeRecent();
 
     fetch(EVENTS_URL)
       .then(function (res) {

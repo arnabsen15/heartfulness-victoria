@@ -1,0 +1,44 @@
+{
+  "channelUrl": "https://www.youtube.com/@heartfulness",
+  "channelId": "UCoG2o8WtvYh8sCS40pUFtCg",
+  "fetchedAt": "2026-09-15T01:15:33.999080+00:00",
+  "windowNote": "Latest from the Heartfulness channel (preferring uploads from about the last 10 days).",
+  "videos": [
+    {
+      "id": "sZoW7jo8J2E",
+      "title": "Why the Soul Chooses Its Parents?",
+      "url": "https://www.youtube.com/watch?v=sZoW7jo8J2E",
+      "published": "20260914",
+      "publishedDisplay": "14 Sep 2026",
+      "duration": "23:32",
+      "thumbnail": "https://i.ytimg.com/vi/sZoW7jo8J2E/hqdefault.jpg"
+    },
+    {
+      "id": "mS7cuVgR76Y",
+      "title": "10 Minutes Full Body Guided deep Relaxation | Stress Relief Meditation #heartfulness",
+      "url": "https://www.youtube.com/watch?v=mS7cuVgR76Y",
+      "published": "20260908",
+      "publishedDisplay": "8 Sep 2026",
+      "duration": "11:24",
+      "thumbnail": "https://i.ytimg.com/vi/mS7cuVgR76Y/hqdefault.jpg"
+    },
+    {
+      "id": "AO9xQUE666c",
+      "title": "Daaji Explains: The role of a Teacher/Guru in your spiritual journey",
+      "url": "https://www.youtube.com/watch?v=AO9xQUE666c",
+      "published": "20260905",
+      "publishedDisplay": "5 Sep 2026",
+      "duration": "35:02",
+      "thumbnail": "https://i.ytimg.com/vi/AO9xQUE666c/hqdefault.jpg"
+    },
+    {
+      "id": "w-i_zDe5ijg",
+      "title": "What happens inside the body when we change our inner environment | Meditation & Epigenetics",
+      "url": "https://www.youtube.com/watch?v=w-i_zDe5ijg",
+      "published": "20260904",
+      "publishedDisplay": "4 Sep 2026",
+      "duration": "12:31",
+      "thumbnail": "https://i.ytimg.com/vi/w-i_zDe5ijg/hqdefault.jpg"
+    }
+  ]
+}
