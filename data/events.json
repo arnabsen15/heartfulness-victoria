@@ -11,7 +11,7 @@
     "status": "upcoming",
     "category": "special",
     "notes": "Free community event. Family and friends are welcome — feel free to share with others.",
-    "eventbriteUrl": "",
+    "eventbriteUrl": "https://www.eventbrite.com.au/e/wantirna-south-international-day-of-peace-2026-tickets-1999239831153",
     "joinUrl": "https://events.yourlibrary.vic.gov.au/event?id=82422",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
@@ -207,6 +207,23 @@
     "image": "",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org"
+  },
+  {
+    "id": "knox-saturday-weekly",
+    "title": "Knox — Saturday Meditation",
+    "date": null,
+    "time": "2:00 PM",
+    "recurrence": "Every Saturday",
+    "venue": "Knox Library - Ngarrgoo, 425 Burwood Hwy, Westfield Knox, Wantirna South VIC 3152",
+    "suburb": "Wantirna South",
+    "status": "upcoming",
+    "category": "weekly",
+    "notes": "Join us for meditation. Register via Knox Libraries; Eventbrite listing also available.",
+    "eventbriteUrl": "https://www.eventbrite.com.au/e/wantirna-south-international-day-of-peace-2026-tickets-1999239831153",
+    "joinUrl": "https://events.yourlibrary.vic.gov.au/event?id=82422",
+    "registerBy": "",
+    "contactEmail": "melbourne@heartfulness.org",
+    "image": ""
   },
   {
     "id": "donnybrook-weekly-tuesday",
