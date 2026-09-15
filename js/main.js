@@ -91,14 +91,14 @@
     return "Other";
   }
 
-  function eventbriteCta(event) {
+  function eventActions(event) {
     const parts = [];
     const join = (event.joinUrl || "").trim();
     if (join && join !== "#") {
-      const joinLabel =
-        /zoom\.us/i.test(join) ? "Join Zoom" :
-        /bit\.ly|register/i.test(join) || (event.category === "special") ? "Register" :
-        "Open link";
+      let joinLabel = "Open link";
+      if (/zoom\.us/i.test(join)) joinLabel = "Join Zoom";
+      else if (/bit\.ly|register|yourlibrary|square\.site/i.test(join) || event.category === "special")
+        joinLabel = "Register";
       parts.push(
         '<a class="btn btn-card" href="' +
           escapeHtml(join) +
@@ -114,11 +114,13 @@
           escapeHtml(url) +
           '" target="_blank" rel="noopener noreferrer">View on Eventbrite</a>'
       );
-    } else if (!join) {
+    }
+    const maps = (event.mapsUrl || "").trim();
+    if (maps && maps !== "#") {
       parts.push(
-        '<a class="btn btn-card is-placeholder" href="#" data-eventbrite="" aria-disabled="true" ' +
-          'onclick="return false;" title="Eventbrite link to be added">' +
-          "View on Eventbrite</a>"
+        '<a class="btn btn-card btn-card-secondary" href="' +
+          escapeHtml(maps) +
+          '" target="_blank" rel="noopener noreferrer">Map</a>'
       );
     }
     return parts.join(" ");
@@ -154,16 +156,20 @@
 
     const recurrence = (event.recurrence || "").trim();
     let dateLine;
-    if (recurrence && event.date) {
-      dateLine = recurrence;
-    } else if (event.date && event.endDate && event.endDate !== event.date) {
+    if (event.date && event.endDate && event.endDate !== event.date) {
       dateLine = formatDisplayDate(event.date) + " – " + formatDisplayDate(event.endDate);
     } else if (event.date) {
       dateLine = formatDisplayDate(event.date);
+    } else if (recurrence) {
+      dateLine = recurrence;
     } else {
-      dateLine = recurrence || "Special event";
+      dateLine = "Date to be confirmed";
     }
     const timeLine = event.time || "";
+    const scheduleNote =
+      recurrence && event.date && recurrence.toLowerCase().indexOf("october") !== -1
+        ? '<li><span class="label">Schedule</span><span>' + escapeHtml(recurrence) + "</span></li>"
+        : "";
 
     const notes =
       event.notes && String(event.notes).trim()
@@ -218,12 +224,13 @@
       '<li><span class="label">Where</span><span>' +
       escapeHtml(event.venue) +
       "</span></li>" +
+      scheduleNote +
       registerBy +
       contact +
       "</ul>" +
       notes +
       '<div class="event-actions">' +
-      eventbriteCta(event) +
+      eventActions(event) +
       "</div>" +
       "</div></article>"
     );
@@ -233,31 +240,36 @@
     const suburb = event.suburb || event.title || "Session";
     const time = event.time || "Time TBC";
     const venue = event.venue || "";
+    const when = (event.recurrence || "Weekly").trim() + " · " + time;
     const notes =
       event.notes && String(event.notes).trim()
         ? '<p class="weekly-notes">' + escapeHtml(event.notes) + "</p>"
         : "";
+    const actions = eventActions(event);
 
     return (
-      '<article class="event-card is-weekly-compact" data-event-id="' +
+      '<article class="event-card is-weekly-compact' +
+      (actions ? "" : " no-actions") +
+      '" data-event-id="' +
       escapeHtml(event.id || "") +
       '" role="listitem">' +
+      '<div class="weekly-main">' +
       '<p class="weekly-suburb">' +
       escapeHtml(suburb) +
       "</p>" +
       '<p class="weekly-time">' +
-      escapeHtml(time) +
+      escapeHtml(when) +
       "</p>" +
-      '<p class="weekly-venue">' +
-      escapeHtml(venue) +
-      "</p>" +
-      '<div class="weekly-actions">' +
-      eventbriteCta(event) +
-      "</div>" +
+      (venue
+        ? '<p class="weekly-venue">' + escapeHtml(venue) + "</p>"
+        : "") +
       notes +
+      "</div>" +
+      (actions ? '<div class="event-actions">' + actions + "</div>" : "") +
       "</article>"
     );
   }
+
 
   function renderPastCard(event) {
     const ended = event.status === "series-ended" || event.status === "ended";

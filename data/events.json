@@ -5,7 +5,7 @@
     "date": "2026-09-19",
     "endDate": "",
     "time": "2:00 – 3:00 PM",
-    "recurrence": "Family and friends welcome",
+    "recurrence": "",
     "venue": "Knox Library - Ngarrgoo, 425 Burwood Hwy, Westfield Knox, Wantirna South VIC 3152",
     "suburb": "Wantirna South",
     "status": "upcoming",
@@ -15,7 +15,8 @@
     "joinUrl": "https://events.yourlibrary.vic.gov.au/event?id=82422",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "image": "images/international-day-of-peace-2026.jpg"
+    "image": "images/international-day-of-peace-2026.jpg",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Knox%20Library%20-%20Ngarrgoo%2C%20425%20Burwood%20Hwy%2C%20Westfield%20Knox%2C%20Wantirna%20South%20VIC%203152"
   },
   {
     "id": "wellness-kalkallo-2026-09-19",
@@ -23,7 +24,7 @@
     "date": "2026-09-19",
     "endDate": "",
     "time": "3:00 – 5:00 PM",
-    "recurrence": "Special event",
+    "recurrence": "",
     "venue": "Kalkallo North Community Centre, 24 Koeks Vista, Kalkallo VIC",
     "suburb": "Kalkallo",
     "status": "upcoming",
@@ -33,7 +34,8 @@
     "joinUrl": "",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "image": ""
+    "image": "",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kalkallo%20North%20Community%20Centre%2C%2024%20Koeks%20Vista%2C%20Kalkallo%20VIC"
   },
   {
     "id": "idp-berwick-2026-09-20",
@@ -41,7 +43,7 @@
     "date": "2026-09-20",
     "endDate": "",
     "time": "8:00 – 10:00 AM",
-    "recurrence": "Family and friends welcome",
+    "recurrence": "",
     "venue": "21A Bemersyde Drive, Berwick",
     "suburb": "Berwick",
     "status": "upcoming",
@@ -51,15 +53,16 @@
     "joinUrl": "",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "image": "images/international-day-of-peace-2026.jpg"
+    "image": "images/international-day-of-peace-2026.jpg",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=21A%20Bemersyde%20Drive%2C%20Berwick"
   },
   {
     "id": "full-day-meditation-seminar-daaji-2026",
     "title": "Full Day Meditation Seminar — 71st Birthday Celebration of Respected Daaji",
     "date": "2026-09-27",
     "endDate": "2026-09-28",
-    "time": "Full day · details to follow",
-    "recurrence": "Save the Date",
+    "time": "Full day (details to follow)",
+    "recurrence": "",
     "venue": "Sunday 27 September — Bayswater · Monday 28 September — Docklands",
     "suburb": "Melbourne",
     "status": "upcoming",
@@ -69,7 +72,8 @@
     "joinUrl": "",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "image": "images/full-day-meditation-seminar-daaji.jpg"
+    "image": "images/full-day-meditation-seminar-daaji.jpg",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sunday%2027%20September%20%E2%80%94%20Bayswater%20%C2%B7%20Monday%2028%20September%20%E2%80%94%20Docklands"
   },
   {
     "id": "heartful-communication-apac-ess10-2026",
@@ -104,7 +108,8 @@
     "category": "weekly",
     "image": "",
     "registerBy": "",
-    "contactEmail": "melbourne@heartfulness.org"
+    "contactEmail": "melbourne@heartfulness.org",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bridge%20Road%20Children%27s%20and%20Community%20Centre%2C%20260-266%20Bridge%20Rd%2C%20Strathtulloh%20VIC%203338"
   },
   {
     "id": "bentleigh-east-weekly",
@@ -121,7 +126,8 @@
     "category": "weekly",
     "image": "",
     "registerBy": "",
-    "contactEmail": "melbourne@heartfulness.org"
+    "contactEmail": "melbourne@heartfulness.org",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Moorleigh%20Community%20Village%2C%20Bob%20Flavell%20Wing%2C%2090-92%20Bignell%20Rd%2C%20Bentleigh%20East%2C%20Room%2084"
   },
   {
     "id": "point-cook-weekly",
@@ -138,7 +144,8 @@
     "category": "weekly",
     "image": "",
     "registerBy": "",
-    "contactEmail": "melbourne@heartfulness.org"
+    "contactEmail": "melbourne@heartfulness.org",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Saltwater%20Community%20Centre%2C%20153%20Saltwater%20Promenade%2C%20Point%20Cook%20VIC%203030"
   },
   {
     "id": "berwick-weekly",
@@ -155,7 +162,8 @@
     "category": "weekly",
     "image": "",
     "registerBy": "",
-    "contactEmail": "melbourne@heartfulness.org"
+    "contactEmail": "melbourne@heartfulness.org",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Brentwood%20Park%20Neighbourhood%20%26%20Community%20Centre%2C%2021A%20Bemersyde%20Dr%2C%20Berwick%20VIC%203806"
   },
   {
     "id": "carlton-weekly",
@@ -172,7 +180,8 @@
     "category": "weekly",
     "image": "",
     "registerBy": "",
-    "contactEmail": "melbourne@heartfulness.org"
+    "contactEmail": "melbourne@heartfulness.org",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kathleen%20Syme%20Library%2C%20251%20Faraday%20Street%2C%20Carlton%2C%20Multipurpose%20Room%201"
   },
   {
     "id": "kalkallo-weekly",
@@ -189,7 +198,8 @@
     "category": "weekly",
     "image": "",
     "registerBy": "",
-    "contactEmail": "melbourne@heartfulness.org"
+    "contactEmail": "melbourne@heartfulness.org",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kalkallo%20North%20Community%20Centre%2C%2026%20Koeks%20Vis%2C%20Kalkallo%20VIC%203064"
   },
   {
     "id": "virtual-weekly",
@@ -223,7 +233,8 @@
     "joinUrl": "https://events.yourlibrary.vic.gov.au/event?id=82422",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "image": ""
+    "image": "",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Knox%20Library%20-%20Ngarrgoo%2C%20425%20Burwood%20Hwy%2C%20Westfield%20Knox%2C%20Wantirna%20South%20VIC%203152"
   },
   {
     "id": "donnybrook-weekly-tuesday",
@@ -240,7 +251,8 @@
     "joinUrl": "",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "image": ""
+    "image": "",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=11%20Native%20Road%2C%20Donnybrook%20VIC%203064"
   },
   {
     "id": "past-inner-illumination",
@@ -258,6 +270,7 @@
     "joinUrl": "https://checkout.square.site/merchant/MLMHXA9Z2S00F/checkout/DDYS3RJBVR6ACACDNUFQS44D",
     "registerBy": "",
     "contactEmail": "melbourne@heartfulness.org",
-    "image": ""
+    "image": "",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Heartfulness%20Institute%20Australia"
   }
 ]

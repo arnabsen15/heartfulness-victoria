@@ -17,7 +17,7 @@
   --color-soft-blue: #C0DAEE;
   --color-text: #090C0F;
   --color-text-body: #2E4049;
-  --color-muted: #4B5C63;
+  --color-muted: #3a4a52;
   --color-gold: #DEAC43;
   --color-gold-hover: #c9972f;
   --color-purple: #8C249E;
@@ -805,4 +805,82 @@ section {
 }
 /* republish 2026-09-15T00:21:19+00:00 */
 /* past events 2026-09-15T00:27:47+00:00 */
-/* past cleanup 2026-09-15T00:28:39+00:00 */
+
+
+/* Sticky header offset for in-page anchors */
+:root {
+  --header-offset: 4.75rem;
+}
+
+#main > section,
+#events,
+#weekly,
+#past,
+#about,
+#expect,
+#contact {
+  scroll-margin-top: var(--header-offset);
+}
+
+/* Tighter special cards without flyers */
+.event-card.is-special:not(:has(.event-flyer)) {
+  min-height: 0;
+}
+.event-card.is-special .event-body {
+  padding-top: 1rem;
+}
+.event-card.is-special:not(:has(:is(.event-flyer))) .event-body {
+  padding-top: 1.1rem;
+}
+
+/* Fallback when :has unsupported — no empty flyer gap */
+.event-card.is-special > .event-body:first-child {
+  padding-top: 1.15rem;
+}
+
+.btn-card-secondary {
+  background: transparent;
+  color: var(--color-navy);
+  border: 1px solid var(--color-navy);
+}
+.btn-card-secondary:hover {
+  background: var(--color-soft-blue);
+}
+
+.weekly-main {
+  flex: 1;
+  min-width: 0;
+}
+.event-card.is-weekly-compact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.75rem 1rem;
+  padding: 0.9rem 1rem;
+}
+.event-card.is-weekly-compact .event-actions {
+  margin-left: auto;
+  padding-top: 0;
+}
+.event-card.is-weekly-compact.no-actions {
+  padding-bottom: 0.9rem;
+}
+
+/* Hide Netlify badge if injected */
+#netlify-badge,
+a[href*="netlify.com"][style*="position: fixed"],
+body > a[href*="www.netlify.com"] {
+  display: none !important;
+}
+
+.contact-cta {
+  display: inline-flex;
+  align-items: center;
+  margin: 0.75rem 0 1rem;
+}
+.contact-organiser {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  color: var(--color-text-body);
+}
+
