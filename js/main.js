@@ -491,7 +491,7 @@
           "</a></span></li>"
         : "";
 
-    /* Always render a fixed-aspect flyer area; soft-blue placeholder if no image */
+    /* Flyer only when an image exists — no empty placeholder block */
     const hasImage = event.image && String(event.image).trim();
     const image = hasImage
       ? '<div class="event-flyer"><img src="' +
@@ -499,7 +499,7 @@
         '" alt="' +
         escapeHtml(event.title) +
         ' flyer" loading="lazy" /></div>'
-      : '<div class="event-flyer is-placeholder" aria-hidden="true"></div>';
+      : "";
 
     const whenDetail =
       escapeHtml(dateLine) +
