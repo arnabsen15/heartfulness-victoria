@@ -104,7 +104,22 @@
 
         <div class="events-weekly" id="weekly">
           <h3 class="weekly-heading" id="weekly-heading">Weekly sessions</h3>
-          <p class="special-intro" id="weekly-intro">Regular recurring sessions — Saturdays, Sundays, and Tuesdays.</p>
+          <p class="special-intro" id="weekly-intro">
+            Regular sessions across Victoria — Saturdays, Sundays, and Tuesdays.
+            Times are local Victoria time unless noted. Online sessions may use IST — check each listing.
+          </p>
+          <div class="weekly-toolbar" id="weekly-toolbar">
+            <div
+              class="weekly-filters"
+              id="weekly-filters"
+              role="group"
+              aria-label="Filter weekly sessions by suburb"
+            ></div>
+            <button type="button" class="btn btn-secondary btn-nearest" id="weekly-nearest">
+              Nearest to me
+            </button>
+          </div>
+          <p class="weekly-filter-status" id="weekly-filter-status" aria-live="polite"></p>
           <div id="events-upcoming" role="list">
             <!-- Day-grouped weekly sessions injected by js/main.js -->
           </div>

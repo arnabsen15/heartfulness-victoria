@@ -86,12 +86,15 @@
     "suburb": "APAC Online",
     "status": "upcoming",
     "category": "special",
-    "notes": "HC APAC \u2013 ESS 10 (Oct 2026). For Heartfulness Practitioners. Register by 30 September 2026. Limited seats. For program questions: apac.hc@heartfulness.org.",
+    "notes": "HC APAC \u2013 ESS 10 (Oct 2026). For Heartfulness Practitioners. Register by 30 September 2026. Limited seats. Session times are IST (India) \u2014 see When for the Victoria conversion note. Program questions: apac.hc@heartfulness.org.",
     "eventbriteUrl": "",
     "joinUrl": "https://bit.ly/4xJPEI5",
     "registerBy": "2026-09-30",
     "contactEmail": "",
-    "image": "images/heartful-communication-apac-ess10.jpg"
+    "image": "images/heartful-communication-apac-ess10.jpg",
+    "timezone": "Asia/Kolkata",
+    "timezoneLabel": "IST (India Standard Time)",
+    "timeLocalNote": "Listed in IST. Rough Victoria guide: 11:30 AM IST \u2248 6:00 AM AEST, or \u2248 7:00 AM AEDT once daylight saving starts (from the first Sunday in October). Confirm each date in your own calendar."
   },
   {
     "id": "melton-weekly",
@@ -111,7 +114,9 @@
     "contactEmail": "melbourne@heartfulness.org",
     "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bridge%20Road%20Children%27s%20and%20Community%20Centre%2C%20260-266%20Bridge%20Rd%2C%20Strathtulloh%20VIC%203338",
     "lat": -37.7149424,
-    "lng": 144.5861515
+    "lng": 144.5861515,
+    "accessNotes": "Community centre \u2014 local parking usually available; arrive a few minutes early.",
+    "timezoneLabel": "Victoria local time"
   },
   {
     "id": "bentleigh-east-weekly",
@@ -131,7 +136,9 @@
     "contactEmail": "melbourne@heartfulness.org",
     "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Moorleigh%20Community%20Village%2C%20Bob%20Flavell%20Wing%2C%2090-92%20Bignell%20Rd%2C%20Bentleigh%20East%2C%20Room%2084",
     "lat": -37.9344973,
-    "lng": 145.0703543
+    "lng": 145.0703543,
+    "accessNotes": "Bob Flavell Wing, Room 84. BYO yoga mats. Village parking nearby.",
+    "timezoneLabel": "Victoria local time"
   },
   {
     "id": "point-cook-weekly",
@@ -151,7 +158,9 @@
     "contactEmail": "melbourne@heartfulness.org",
     "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Saltwater%20Community%20Centre%2C%20153%20Saltwater%20Promenade%2C%20Point%20Cook%20VIC%203030",
     "lat": -37.9113147,
-    "lng": 144.7704767
+    "lng": 144.7704767,
+    "accessNotes": "Community centre \u2014 local parking usually available; arrive a few minutes early.",
+    "timezoneLabel": "Victoria local time"
   },
   {
     "id": "berwick-weekly",
@@ -171,7 +180,9 @@
     "contactEmail": "melbourne@heartfulness.org",
     "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Brentwood%20Park%20Neighbourhood%20%26%20Community%20Centre%2C%2021A%20Bemersyde%20Dr%2C%20Berwick%20VIC%203806",
     "lat": -38.0497536,
-    "lng": 145.3455733
+    "lng": 145.3455733,
+    "accessNotes": "Neighbourhood centre \u2014 local parking on or near Bemersyde Drive.",
+    "timezoneLabel": "Victoria local time"
   },
   {
     "id": "carlton-weekly",
@@ -191,7 +202,9 @@
     "contactEmail": "melbourne@heartfulness.org",
     "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kathleen%20Syme%20Library%2C%20251%20Faraday%20Street%2C%20Carlton%2C%20Multipurpose%20Room%201",
     "lat": -37.7987135,
-    "lng": 144.9652521
+    "lng": 144.9652521,
+    "accessNotes": "Kathleen Syme Library, Multipurpose Room 1. Check library opening hours; limited street parking.",
+    "timezoneLabel": "Victoria local time"
   },
   {
     "id": "kalkallo-weekly",
@@ -211,7 +224,9 @@
     "contactEmail": "melbourne@heartfulness.org",
     "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kalkallo%20North%20Community%20Centre%2C%2024%20Koeks%20Vista%2C%20Kalkallo%20VIC%203064",
     "lat": -37.5212549,
-    "lng": 144.9574176
+    "lng": 144.9574176,
+    "accessNotes": "Community centre parking on site when available; arrive a few minutes early.",
+    "timezoneLabel": "Victoria local time"
   },
   {
     "id": "virtual-weekly",
@@ -222,13 +237,16 @@
     "venue": "Online via Zoom",
     "suburb": "Virtual",
     "status": "upcoming",
-    "notes": "Join from home. Zoom link opens the live session.",
+    "notes": "Join from home. Zoom link opens the live session. Time is Melbourne / Victoria local \u2014 AEST, or AEDT during daylight saving (early October to early April).",
     "eventbriteUrl": "",
     "joinUrl": "https://us02web.zoom.us/j/85218101789?pwd=TVM4cmRNRlhGTE9YL2FGeXpTZnYzZz09",
     "category": "weekly",
     "image": "",
     "registerBy": "",
-    "contactEmail": "melbourne@heartfulness.org"
+    "contactEmail": "melbourne@heartfulness.org",
+    "accessNotes": "Online via Zoom \u2014 times are Melbourne / Victoria local (AEST, or AEDT during daylight saving).",
+    "timezone": "Australia/Melbourne",
+    "timezoneLabel": "Melbourne / Victoria (AEST or AEDT)"
   },
   {
     "id": "knox-saturday-weekly",
@@ -248,7 +266,9 @@
     "image": "",
     "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Knox%20Library%20-%20Ngarrgoo%2C%20425%20Burwood%20Hwy%2C%20Westfield%20Knox%2C%20Wantirna%20South%20VIC%203152",
     "lat": -37.8676962,
-    "lng": 145.2381211
+    "lng": 145.2381211,
+    "accessNotes": "At Knox Library Ngarrgoo inside Westfield Knox \u2014 use centre parking, then follow library signs.",
+    "timezoneLabel": "Victoria local time"
   },
   {
     "id": "donnybrook-weekly-tuesday",
@@ -260,7 +280,7 @@
     "suburb": "Donnybrook",
     "status": "upcoming",
     "category": "weekly",
-    "notes": "Weekly Group Meditation. Contact melbourne@heartfulness.org with questions.",
+    "notes": "Weekly group meditation at a private home. RSVP by email before attending (melbourne@heartfulness.org).",
     "eventbriteUrl": "",
     "joinUrl": "",
     "registerBy": "",
@@ -268,7 +288,11 @@
     "image": "",
     "mapsUrl": "https://www.google.com/maps/search/?api=1&query=11%20Native%20Road%2C%20Donnybrook%20VIC%203064",
     "lat": -37.5405354,
-    "lng": 144.9929703
+    "lng": 144.9929703,
+    "accessNotes": "Private home venue. Please email melbourne@heartfulness.org to RSVP before you come so hosts know to expect you. Street parking on Native Road.",
+    "rsvpEmail": "melbourne@heartfulness.org",
+    "rsvpSubject": "RSVP \u2014 Donnybrook Tuesday meditation",
+    "timezoneLabel": "Victoria local time"
   },
   {
     "id": "past-inner-illumination",

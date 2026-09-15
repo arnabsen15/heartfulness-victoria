@@ -223,6 +223,46 @@
       .replace(/'/g, "&#39;");
   }
 
+  var weeklyAllCache = [];
+  var weeklyFilterSuburb = "all";
+  var weeklyNearestId = null;
+
+  function haversineKm(lat1, lng1, lat2, lng2) {
+    var R = 6371;
+    var toRad = Math.PI / 180;
+    var dLat = (lat2 - lat1) * toRad;
+    var dLng = (lng2 - lng1) * toRad;
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * toRad) *
+        Math.cos(lat2 * toRad) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  function timezoneMeta(event) {
+    var label = (event.timezoneLabel || "").trim();
+    var localNote = (event.timeLocalNote || "").trim();
+    var time = String(event.time || "");
+    if (!label && /\bIST\b/i.test(time)) {
+      label = "IST (India Standard Time)";
+    }
+    if (!label && (event.suburb === "Virtual" || /zoom/i.test(event.venue || ""))) {
+      label = "Melbourne / Victoria (AEST or AEDT)";
+    }
+    return { label: label, localNote: localNote };
+  }
+
+  function formatTimeWithZone(event) {
+    var time = (event.time || "").trim() || "Time TBC";
+    var tz = timezoneMeta(event);
+    if (tz.label && !new RegExp(tz.label.split("(")[0].trim(), "i").test(time)) {
+      return time + " · " + tz.label;
+    }
+    return time;
+  }
+
   function recurrenceDay(event) {
     const rec = String(event.recurrence || "").toLowerCase();
     if (rec.indexOf("saturday") !== -1) return "Saturday";
@@ -468,6 +508,19 @@
           '" target="_blank" rel="noopener noreferrer">Map</a>'
       );
     }
+    const rsvp = (event.rsvpEmail || "").trim();
+    if (rsvp) {
+      const subj = encodeURIComponent(
+        event.rsvpSubject || "RSVP — Heartfulness Victoria session"
+      );
+      parts.push(
+        '<a class="btn btn-card" href="mailto:' +
+          escapeHtml(rsvp) +
+          "?subject=" +
+          subj +
+          '">RSVP by email</a>'
+      );
+    }
     return parts.join(" ");
   }
 
@@ -568,9 +621,19 @@
         ' flyer" loading="lazy" /></div>'
       : "";
 
-    const whenDetail =
+    const tz = timezoneMeta(event);
+    const timeShown = timeLine
+      ? formatTimeWithZone(
+          Object.assign({}, event, { time: timeLine })
+        )
+      : "";
+    let whenDetail =
       escapeHtml(dateLine) +
-      (timeLine ? "<br />" + escapeHtml(timeLine) : "");
+      (timeShown ? "<br />" + escapeHtml(timeShown) : "");
+    if (tz.localNote) {
+      whenDetail +=
+        '<br /><span class="tz-note">' + escapeHtml(tz.localNote) + "</span>";
+    }
 
     return (
       '<article class="' +
@@ -605,24 +668,40 @@
 
   function renderWeeklyCompact(event) {
     const suburb = event.suburb || event.title || "Session";
-    const time = event.time || "Time TBC";
     const venue = event.venue || "";
-    const when = (event.recurrence || "Weekly").trim() + " · " + time;
-    const notes =
-      event.notes && String(event.notes).trim()
-        ? '<p class="weekly-notes">' + escapeHtml(event.notes) + "</p>"
-        : "";
+    const when =
+      (event.recurrence || "Weekly").trim() +
+      " · " +
+      formatTimeWithZone(event);
+    const noteBits = [];
+    if (event.notes && String(event.notes).trim()) {
+      noteBits.push(String(event.notes).trim());
+    }
+    if (event.accessNotes && String(event.accessNotes).trim()) {
+      noteBits.push(String(event.accessNotes).trim());
+    }
+    const notes = noteBits.length
+      ? '<p class="weekly-notes">' + escapeHtml(noteBits.join(" · ")) + "</p>"
+      : "";
     const actions = eventActions(event);
+    const nearestClass =
+      weeklyNearestId && event.id === weeklyNearestId ? " is-nearest" : "";
 
     return (
       '<article class="event-card is-weekly-compact' +
       (actions ? "" : " no-actions") +
+      nearestClass +
       '"' +
       cardIdAttr(event) +
-      ' role="listitem">' +
+      ' role="listitem" data-suburb="' +
+      escapeHtml(suburb) +
+      '">' +
       '<div class="weekly-main">' +
       '<p class="weekly-suburb">' +
       escapeHtml(suburb) +
+      (nearestClass
+        ? ' <span class="nearest-pill">Nearest</span>'
+        : "") +
       "</p>" +
       '<p class="weekly-time">' +
       escapeHtml(when) +
@@ -705,7 +784,7 @@
 
   function renderWeeklyGrouped(weekly) {
     if (weekly.length === 0) {
-      return '<p class="events-empty">No weekly sessions listed right now.</p>';
+      return '<p class="events-empty">No weekly sessions match this filter.</p>';
     }
 
     const groups = groupWeeklyByDay(weekly);
@@ -727,6 +806,152 @@
     });
 
     return parts.join("");
+  }
+
+  function filteredWeekly() {
+    if (weeklyFilterSuburb === "all") return weeklyAllCache.slice();
+    return weeklyAllCache.filter(function (ev) {
+      return (ev.suburb || "") === weeklyFilterSuburb;
+    });
+  }
+
+  function paintWeeklyList() {
+    const upcomingRoot = document.getElementById("events-upcoming");
+    const status = document.getElementById("weekly-filter-status");
+    if (!upcomingRoot) return;
+    const list = filteredWeekly();
+    upcomingRoot.innerHTML = renderWeeklyGrouped(list);
+    if (status) {
+      if (weeklyFilterSuburb === "all") {
+        status.textContent = weeklyNearestId
+          ? "Showing all suburbs · nearest session highlighted."
+          : "";
+      } else {
+        status.textContent =
+          "Showing " + weeklyFilterSuburb + " (" + list.length + ").";
+      }
+    }
+  }
+
+  function buildWeeklyFilters(weekly) {
+    const root = document.getElementById("weekly-filters");
+    const nearestBtn = document.getElementById("weekly-nearest");
+    if (!root) return;
+
+    const suburbs = [];
+    const seen = {};
+    weekly.forEach(function (ev) {
+      const s = (ev.suburb || "").trim();
+      if (!s || seen[s]) return;
+      seen[s] = true;
+      suburbs.push(s);
+    });
+    suburbs.sort(function (a, b) {
+      return a.localeCompare(b);
+    });
+
+    function chip(label, value) {
+      const active = weeklyFilterSuburb === value ? " is-active" : "";
+      return (
+        '<button type="button" class="filter-chip' +
+        active +
+        '" data-suburb="' +
+        escapeHtml(value) +
+        '" aria-pressed="' +
+        (weeklyFilterSuburb === value ? "true" : "false") +
+        '">' +
+        escapeHtml(label) +
+        "</button>"
+      );
+    }
+
+    root.innerHTML =
+      chip("All", "all") +
+      suburbs
+        .map(function (s) {
+          return chip(s, s);
+        })
+        .join("");
+
+    root.onclick = function (e) {
+      const btn = e.target.closest(".filter-chip");
+      if (!btn) return;
+      weeklyFilterSuburb = btn.getAttribute("data-suburb") || "all";
+      weeklyNearestId = null;
+      buildWeeklyFilters(weeklyAllCache);
+      paintWeeklyList();
+    };
+
+    if (nearestBtn && !nearestBtn.dataset.bound) {
+      nearestBtn.dataset.bound = "1";
+      nearestBtn.addEventListener("click", function () {
+        if (!navigator.geolocation) {
+          const status = document.getElementById("weekly-filter-status");
+          if (status) {
+            status.textContent =
+              "Location is not available in this browser — pick a suburb filter instead.";
+          }
+          return;
+        }
+        nearestBtn.disabled = true;
+        nearestBtn.textContent = "Finding…";
+        navigator.geolocation.getCurrentPosition(
+          function (pos) {
+            nearestBtn.disabled = false;
+            nearestBtn.textContent = "Nearest to me";
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            var best = null;
+            var bestKm = Infinity;
+            weeklyAllCache.forEach(function (ev) {
+              if (ev.suburb === "Virtual" || ev.suburb === "APAC Online") return;
+              const elat = Number(ev.lat);
+              const elng = Number(ev.lng);
+              if (!isFinite(elat) || !isFinite(elng)) return;
+              const km = haversineKm(lat, lng, elat, elng);
+              if (km < bestKm) {
+                bestKm = km;
+                best = ev;
+              }
+            });
+            const status = document.getElementById("weekly-filter-status");
+            if (!best) {
+              if (status) {
+                status.textContent =
+                  "Could not match a nearby in-person venue — try a suburb filter.";
+              }
+              return;
+            }
+            weeklyFilterSuburb = "all";
+            weeklyNearestId = best.id;
+            buildWeeklyFilters(weeklyAllCache);
+            paintWeeklyList();
+            if (status) {
+              status.textContent =
+                "Nearest in-person session: " +
+                (best.suburb || best.title) +
+                " (~" +
+                (bestKm < 10 ? bestKm.toFixed(1) : Math.round(bestKm)) +
+                " km).";
+            }
+            const el = document.getElementById(best.id);
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          },
+          function () {
+            nearestBtn.disabled = false;
+            nearestBtn.textContent = "Nearest to me";
+            const status = document.getElementById("weekly-filter-status");
+            if (status) {
+              status.textContent =
+                "Location permission denied — use a suburb filter instead.";
+            }
+          },
+          { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
+        );
+      });
+    }
   }
 
 
@@ -990,7 +1215,11 @@
       }
     }
 
-    upcomingRoot.innerHTML = renderWeeklyGrouped(weekly);
+    weeklyAllCache = weekly.slice();
+    weeklyFilterSuburb = "all";
+    weeklyNearestId = null;
+    buildWeeklyFilters(weeklyAllCache);
+    paintWeeklyList();
 
     if (pastRoot && pastSection) {
       if (past.length === 0) {
