@@ -1448,3 +1448,122 @@ a[href="https://www.netlify.com"] {
 .weekly-notes {
   font-style: normal;
 }
+
+
+/* Feedback form */
+.feedback {
+  padding: 48px 0 56px;
+  background: var(--color-bg-white);
+  border-top: 1px solid var(--color-border-light);
+}
+
+#feedback {
+  scroll-margin-top: var(--header-offset, 4.75rem);
+}
+
+.feedback-form {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1.35rem 1.35rem 1.45rem;
+  background: linear-gradient(180deg, #fff 0%, var(--color-soft-blue) 100%);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.feedback-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.feedback-grid {
+  display: grid;
+  gap: 0.9rem 1rem;
+}
+
+@media (min-width: 700px) {
+  .feedback-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .feedback-field-full {
+    grid-column: 1 / -1;
+  }
+}
+
+.feedback-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.feedback-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-navy);
+}
+
+.feedback-optional {
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.feedback-form input,
+.feedback-form select,
+.feedback-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(23, 62, 95, 0.22);
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  font: inherit;
+  color: var(--color-text-body);
+  background: #fff;
+}
+
+.feedback-form textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+.feedback-form input:focus,
+.feedback-form select:focus,
+.feedback-form textarea:focus {
+  outline: 2px solid rgba(23, 62, 95, 0.35);
+  outline-offset: 1px;
+  border-color: var(--color-navy);
+}
+
+.feedback-privacy {
+  margin: 1rem 0 0;
+  font-size: 0.88rem;
+  color: var(--color-muted);
+  line-height: 1.45;
+}
+
+.feedback-actions {
+  margin-top: 1rem;
+}
+
+.feedback-success {
+  max-width: 720px;
+  margin: 0 auto 1rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(23, 62, 95, 0.18);
+  background: var(--color-soft-blue);
+}
+
+.feedback-success-title {
+  margin: 0 0 0.35rem;
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+.feedback-success p {
+  margin: 0;
+  color: var(--color-text-body);
+}

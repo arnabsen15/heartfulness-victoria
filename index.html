@@ -37,6 +37,7 @@
           <li><a href="#past">Past</a></li>
           <li><a href="#venues">Where we meet</a></li>
           <li><a href="#about">About</a></li>
+          <li><a href="#feedback">Feedback</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
@@ -227,6 +228,86 @@
     </section>
   </main>
 
+
+    <section class="feedback" id="feedback" aria-labelledby="feedback-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="feedback-heading">Feedback</h2>
+          <p>
+            Tell us what works on this page, what is missing, or anything else about
+            Heartfulness Victoria listings. We read every note.
+          </p>
+        </div>
+
+        <div class="feedback-success" id="feedback-success" hidden>
+          <p class="feedback-success-title">Thank you — your feedback was sent.</p>
+          <p>If you left an email, we may follow up when it helps.</p>
+        </div>
+
+        <form
+          class="feedback-form"
+          id="feedback-form"
+          name="site-feedback"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          action="/?feedback=thanks#feedback"
+        >
+          <input type="hidden" name="form-name" value="site-feedback" />
+          <p class="feedback-honeypot" aria-hidden="true">
+            <label>
+              Don’t fill this out if you are human
+              <input type="text" name="bot-field" tabindex="-1" autocomplete="off" />
+            </label>
+          </p>
+
+          <div class="feedback-grid">
+            <label class="feedback-field">
+              <span class="feedback-label">What is this about?</span>
+              <select name="topic" required>
+                <option value="">Choose one…</option>
+                <option value="page">This website / page feedback</option>
+                <option value="event">An event listing (date, venue, link)</option>
+                <option value="venue">Where we meet / map</option>
+                <option value="other">Something else</option>
+              </select>
+            </label>
+
+            <label class="feedback-field">
+              <span class="feedback-label">Your name <span class="feedback-optional">(optional)</span></span>
+              <input type="text" name="name" autocomplete="name" maxlength="120" />
+            </label>
+
+            <label class="feedback-field">
+              <span class="feedback-label">Email <span class="feedback-optional">(optional)</span></span>
+              <input type="email" name="email" autocomplete="email" maxlength="160" />
+            </label>
+
+            <label class="feedback-field feedback-field-full">
+              <span class="feedback-label">Your feedback</span>
+              <textarea
+                name="message"
+                rows="5"
+                required
+                maxlength="4000"
+                placeholder="What should we know or improve?"
+              ></textarea>
+            </label>
+          </div>
+
+          <p class="feedback-privacy">
+            Submitted through a private Netlify form for this site. Optional email is only used
+            if we need to reply. For urgent session questions, email
+            <a href="mailto:melbourne@heartfulness.org">melbourne@heartfulness.org</a>.
+          </p>
+
+          <div class="feedback-actions">
+            <button type="submit" class="btn btn-primary">Send feedback</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
   <footer class="site-footer" id="contact">
     <div class="footer-band">
       <div class="container">
@@ -272,6 +353,7 @@
               <li><a href="#live">Live on YouTube</a></li>
               <li><a href="#weekly">Weekly</a></li>
               <li><a href="#about">About</a></li>
+              <li><a href="#feedback">Feedback</a></li>
               <li><a href="#past">Past</a></li>
             </ul>
           </div>
@@ -296,6 +378,17 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get("feedback") !== "thanks") return;
+      var form = document.getElementById("feedback-form");
+      var ok = document.getElementById("feedback-success");
+      if (form) form.hidden = true;
+      if (ok) {
+        ok.hidden = false;
+        ok.focus && ok.focus();
+      }
+    })();
   </script>
   <script src="js/main.js" defer></script>
 </body>
