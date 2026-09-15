@@ -1169,3 +1169,54 @@ iframe[src*="netlify"] {
 .venues-leaflet-popup a {
   color: var(--color-navy);
 }
+
+
+/* Live / YouTube special announcement */
+.live-announce {
+  padding: 0 0 8px;
+  background: var(--color-bg);
+}
+
+.live-announce-card {
+  margin: -1.25rem auto 1.5rem;
+  padding: 1.35rem 1.4rem 1.45rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(23, 62, 95, 0.18);
+  background:
+    linear-gradient(135deg, rgba(222, 172, 67, 0.16) 0%, transparent 42%),
+    linear-gradient(180deg, #fff 0%, var(--color-soft-blue) 100%);
+  box-shadow: var(--shadow);
+}
+
+.live-announce-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8a6a1a;
+}
+
+.live-announce-title {
+  margin: 0 0 0.55rem;
+  font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+  color: var(--color-navy);
+  line-height: 1.25;
+}
+
+.live-announce-body {
+  margin: 0 0 1rem;
+  max-width: 42rem;
+  color: var(--color-text-body);
+  font-size: 1.02rem;
+}
+
+.live-announce-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 0.75rem;
+}
+
+#live {
+  scroll-margin-top: var(--header-offset, 4.75rem);
+}
