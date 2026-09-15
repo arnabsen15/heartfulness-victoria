@@ -49,6 +49,7 @@
   }
 
   function isPastEvent(event) {
+    if (event.category === "past") return true;
     if (event.status === "series-ended" || event.status === "ended") return true;
     if (!event.date) return false;
     const d = parseLocalDate(event.date);
@@ -341,7 +342,7 @@
     const specialRoot = document.getElementById("events-special");
     const specialSection = document.getElementById("special-events-section");
     const pastRoot = document.getElementById("events-past");
-    const pastSection = document.getElementById("past-events-section");
+    const pastSection = document.getElementById("past") || document.getElementById("past-events-section");
     const statusEl = document.getElementById("events-status");
 
     if (!upcomingRoot) return;
