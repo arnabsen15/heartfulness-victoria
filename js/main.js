@@ -192,7 +192,8 @@
     if (event.category === "past") return true;
     if (event.status === "series-ended" || event.status === "ended") return true;
     if (!event.date) return false;
-    const d = parseLocalDate(event.date);
+    /* Multi-day programs stay current until endDate, not start date */
+    const d = parseLocalDate(event.endDate || event.date);
     if (!d) return false;
     return d < startOfToday();
   }
@@ -345,10 +346,13 @@
       if (isPastEvent(ev)) return;
 
       if (ev.category === "special" && ev.date) {
-        const d = parseLocalDate(ev.date);
-        if (!d || d < today) return;
-        /* If special is today and time already passed, skip */
-        if (d.getTime() === today.getTime()) {
+        const start = parseLocalDate(ev.date);
+        const end = parseLocalDate(ev.endDate || ev.date);
+        if (!start || !end || end < today) return;
+        /* Still-running multi-day: chip/footer use today once start has passed */
+        const d = start < today ? today : start;
+        /* If special is today and time already passed, skip (single-day only) */
+        if (!ev.endDate && d.getTime() === today.getTime()) {
           const h = parseStartHour(ev.time);
           if (h !== null && now.getHours() >= h + 3) return;
         }
